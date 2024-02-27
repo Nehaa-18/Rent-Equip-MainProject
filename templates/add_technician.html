@@ -148,11 +148,44 @@
         color: #fff;
     }
 
+h1 {
+        color: #4d4f68;;
+        font-weight: bold;
+        text-align: center;
+    }
+
+/* Button styles */
+.btn {
+    padding: 6px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    text-transform: uppercase;
+    background-color: #007bff; /* Blue color for buttons */
+    color: #fff;
+}
+
+/* Center the button */
+.center-btn {
+    display: block;
+    margin: 0 auto;
+    text-align: center;
+}
 
 
-
-
-
+   /* Input and textarea styles */
+input[type="text"],
+input[type="email"],
+textarea {
+    padding: 8px 12px;
+    border: 1px solid black; /* Set border color to black for both input fields and textarea */
+    border-radius: 4px;
+    font-size: 14px;
+    width: 100%;
+    box-sizing: border-box; /* Ensure padding and border are included in the element's total width */
+    margin-bottom: 10px; /* Add some space between input fields and textareas */
+}
 
 
     </style>
@@ -160,7 +193,7 @@
 <body>
     <!-- Header -->
     <div class="header">
-        <h1 class="page-title">Admin Dashboard</h1>
+        <h1 class="page-title">Dashboard</h1>
         <a href="{% url 'logout' %}" class="btn btn-primary" id="logout-link">Logout</a>
     </div>
 
@@ -168,6 +201,7 @@
   <div class="sidebar">
     <ul>
         <li><a href="#">Dashboard</a></li>
+         <li><a href="{% url 'accountorg' %}">Account</a></li> 
         <li><a href="{% url 'regusers' %}">Regular Users</a></li>
         <li><a href="{% url 'cusers' %}">Company Users</a></li>
         
@@ -192,20 +226,19 @@
     </ul>
   </div>
 
-<br>
-<br>
+
     <!-- Main content -->
     <div class="content">
         <!-- Content area -->
                   <div class="container">
                     <div class="row">
                       <div class="col-md-6">
-                        <div class="card">
+                        {% comment %} <div class="card">
                           <div class="card-body">
                             <h5 class="card-title"><b>Add Technician</b></h5>
                             <p class="card-text">{{ user_count }}</p>
                           </div>
-                        </div>
+                        </div> {% endcomment %}
                       </div>
                       <div class="col-md-6">
                       <!-- Add any additional statistics or content here -->
@@ -213,31 +246,184 @@
                   </div>
 
             <!-- User table -->
-    <h1></h1>
+    
+    <h1>Add Technicians</h1>
     <form method="post" class="styled-form">
     {% csrf_token %}
-    <div class="form-group">
-        <label for="name">Name:</label>
+    {% comment %} <div class="form-group">
+        <label for="name"  style="color: blue; font-weight: bold;">Name:</label>
         <input type="text" id="name" name="name" class="form-control">
     </div>
     <div class="form-group">
-        <label for="phone_number">Phone Number:</label>
+        <label for="phone_number"  style="color: blue; font-weight: bold;">Phone Number:</label>
         <input type="text" id="phone_number" name="phone_number" class="form-control">
     </div>
     <div class="form-group">
-        <label for="expertise">Expertise:</label>
+        <label for="expertise"  style="color: blue; font-weight: bold;">Expertise:</label>
         <input type="text" id="expertise" name="expertise" class="form-control">
     </div>
     <div class="form-group">
-        <label for="email">Email:</label>
+        <label for="email"  style="color: blue; font-weight: bold;">Email:</label>
         <input type="email" id="email" name="email" class="form-control">
     </div>
     <div class="form-group">
-        <label for="address">Address:</label>
+        <label for="address"  style="color: blue; font-weight: bold;">Address:</label>
         <textarea id="address" name="address" class="form-control"></textarea>
     </div>
-    <button type="submit" class="btn btn-primary">Submit</button>
+    <button type="submit" class="btn center-btn">Submit</button> {% endcomment %}
+
+ <div class="technician-group">
+    <div class="technician">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" class="name" required>
+        <label for="phone_number">Phone Number:</label>
+        <input type="text" id="phone_number" name="phone_number" class="phone_number" required>
+        <label for="expertise">Expertise:</label>
+        <input type="text" id="expertise" name="expertise" class="expertise" required>
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" class="email" required>
+        <label for="address">Address:</label>
+        <textarea id="address" name="address" class="address" required></textarea>
+    </div>
+</div>
+
+
+<button id="add-technician">Add Technician</button>
+<button id="submit-technicians">Submit</button>
 </form>
 
+<script>
+ document.addEventListener('DOMContentLoaded', function() {
+        // Get the name input field
+        var nameInput = document.getElementById('name');
+
+        // Add an event listener for input changes
+        nameInput.addEventListener('input', function() {
+            // Get the value of the name input field
+            var nameValue = nameInput.value;
+
+            // Define a regular expression pattern for the name
+            var pattern = /^[A-Z][a-z]*$/;
+
+            // Test if the name matches the pattern
+            if (!pattern.test(nameValue)) {
+                // If the name is invalid, show a message to the user
+                nameInput.setCustomValidity('Name should contain only alphabets with the first letter capitalized.');
+            } else {
+                // If the name is valid, clear any previous validation message
+                nameInput.setCustomValidity('');
+            }
+        });
+    });
+
+
+
+     document.addEventListener('DOMContentLoaded', function() {
+        // Get the phone number input field
+        var phoneNumberInput = document.getElementById('phone_number');
+
+        // Add an event listener for input changes
+        phoneNumberInput.addEventListener('input', function() {
+            // Get the value of the phone number input field
+            var phoneNumberValue = phoneNumberInput.value;
+
+            // Define a regular expression pattern for the phone number
+            var pattern = /^[1-9]\d{9}$/;
+
+            // Test if the phone number matches the pattern
+            if (!pattern.test(phoneNumberValue)) {
+                // If the phone number is invalid, show a message to the user
+                phoneNumberInput.setCustomValidity('Phone number should contain exactly 10 digits and start with a non-zero digit.');
+            } else {
+                // If the phone number is valid, clear any previous validation message
+                phoneNumberInput.setCustomValidity('');
+            }
+        });
+    });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Array to store technician details
+var technicians = [];
+
+// Function to add a new technician input group
+function addTechnicianInput() {
+    var technicianGroup = document.querySelector('.technician-group');
+    var technician = technicianGroup.querySelector('.technician').cloneNode(true);
+    technicianGroup.appendChild(technician);
+}
+
+// Function to collect technician data and add to array
+function addTechnicianToArray() {
+    var technicianGroup = document.querySelector('.technician-group');
+    var technicianInputs = technicianGroup.querySelectorAll('.technician');
+    technicians = []; // Reset technicians array
+    technicianInputs.forEach(function(techInput) {
+        var technician = {
+            name: techInput.querySelector('.name').value,
+            phone_number: techInput.querySelector('.phone_number').value,
+            expertise: techInput.querySelector('.expertise').value,
+            email: techInput.querySelector('.email').value,
+            address: techInput.querySelector('.address').value
+        };
+        technicians.push(technician);
+    });
+}
+
+// Function to submit all technicians to the server
+function submitAllTechnicians() {
+    addTechnicianToArray(); // Add all technician details to array
+
+    // Send data to the server via AJAX
+    // Example using jQuery AJAX
+    $.ajax({
+        type: 'POST',
+        url: '/submit_all_technicians/', // Change to your server endpoint
+        data: JSON.stringify(technicians),
+        contentType: 'application/json',
+        success: function (response) {
+            // Handle success response
+            console.log(response);
+        },
+        error: function (xhr, status, error) {
+            // Handle error response
+            console.error(xhr.responseText);
+        }
+    });
+}
+
+// Add event listener for "Add Technician" button
+document.getElementById('add-technician').addEventListener('click', function() {
+    addTechnicianInput();
+});
+
+// Add event listener for "Submit" button
+document.getElementById('submit-technicians').addEventListener('click', function() {
+    addTechnicianToArray(); // Ensure all technician details are collected
+    submitAllTechnicians(); // Submit all technicians
+});
+
+</script>
 </body>
 </html>

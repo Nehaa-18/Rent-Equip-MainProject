@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -144,6 +145,11 @@
         background-color: #28a745; /* Green color for activate button */
         color: #fff;
     }
+    h1 {
+        color:#4d4f68;
+        font-weight: bold;
+        
+    }
     </style>
 </head>
 <body>
@@ -157,7 +163,7 @@
     <div class="sidebar">
     <ul>
         <li><a href="">Dashboard</a></li>
-         <li><a href="{% url 'accountorg' %}">Account</a></li> 
+        <li><a href="{% url 'accountorg' %}">Account</a></li> 
         <li><a href="{% url 'regusers' %}">Regular Users</a></li>
         <li><a href="{% url 'cusers' %}">Company Users</a></li>
         <li><a href="{% url 'add_driver' %}">Add Drivers</a></li>
@@ -165,7 +171,8 @@
         <li><a href="{% url 'add_technician' %}">Add Technician</a></li>
         <li><a href="{% url 'view_technician' %}">View Technician</a></li>
         <li><a href="{% url 'addequip' %}">Add Equipments</a></li>
-        <li>
+         <li><a href="{% url 'view_equip' %}">View Equipments</a></li>
+        {% comment %} <li>
             <label for="view-equipments">View Equipments:</label>
             <select id="view-equipments" onchange="location = this.value;">
                 <option value="" selected>Select an option</option>
@@ -174,7 +181,7 @@
                 <option value=>Office Equipment</option>
                 <!-- Add more options for different equipment categories -->
             </select>
-        </li>
+        </li> {% endcomment %}
         <!-- <li><a href="">Blocked users</a></li> -->
     </ul>
 </div>
@@ -186,12 +193,12 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-6">
-                    <div class="card">
+                    {% comment %} <div class="card">
                         <div class="card-body">
                             <h5 class="card-title">Total Users</h5>
                             <p class="card-text">{{ user_count }}</p>
                         </div>
-                    </div>
+                    </div> {% endcomment %}
                 </div>
                 <div class="col-md-6">
                     <!-- Add any additional statistics or content here -->
@@ -199,9 +206,9 @@
             </div>
 
             <!-- User table -->
-            <h2 class="page-title mt-4">User List</h2>
+            {% comment %} <h2 class="page-title mt-4">User List</h2> {% endcomment %}
            
-<table class="table table-striped">
+{% comment %} <table class="table table-striped">
     <thead>
         <tr>
             <th>Username</th>
@@ -240,7 +247,18 @@
         </tr>
         {% endfor %}
     </tbody>
-</table>
+</table> {% endcomment %}
+<!-- User image -->
+<div style="text-align: center;">
+
+    <!-- Paragraph -->
+    <p style="color: #4d4f68;"><b>RENT-EQUIP DASHBOARD</b></p>
+
+    <!-- User image -->
+    <img src="{% static '/images/sliderbg.jpg' %}" alt="User Image" style="max-width: 100%; height: auto;">
+
+</div>
+
         </div>
     </div>
     <script>

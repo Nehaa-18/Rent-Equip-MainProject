@@ -237,14 +237,18 @@
 .small-table tbody tr:nth-child(even) {
     background-color: #f2f2f2; /* Light grey color */
 }
-
+ h1 {
+        color: #4d4f68;;
+        font-weight: bold;
+        text-align: center;
+    }
 
     </style>
 </head>
-<body>
+<body> 
     <!-- Header -->
     <div class="header">
-        <h1 class="page-title">Admin Dashboard</h1>
+        <h1 class="page-title">Dashboard</h1>
         <a href="{% url 'logout' %}" class="btn btn-primary" id="logout-link">Logout</a>
     </div>
 
@@ -252,6 +256,7 @@
     <div class="sidebar">
     <ul>
         <li><a href="#">Dashboard</a></li>
+         <li><a href="{% url 'accountorg' %}">Account</a></li> 
         <li><a href="{% url 'regusers' %}">Regular Users</a></li>
         <li><a href="{% url 'cusers' %}">Company Users</a></li>
         

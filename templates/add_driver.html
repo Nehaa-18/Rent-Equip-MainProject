@@ -77,11 +77,11 @@
 
         /* Page title styles */
         .page-title {
-    font-size: 24px;
-    margin-bottom: 20px;
-    font-weight: bold; /* Make the text bold */
-    color: white; /* Set the text color to white */
-}
+        font-size: 24px;
+        margin-bottom: 20px;
+        font-weight: bold; /* Make the text bold */
+        color: white; /* Set the text color to white */
+        }
 
         /* Logout button styles */
         #logout-link {
@@ -170,32 +170,52 @@
     .table tbody tr:nth-child(even) {
         background-color: #f2f2f2; /* Light grey color */
     }
+/* Button styles */
+.btn {
+    padding: 6px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    text-transform: uppercase;
+    background-color: #007bff; /* Blue color for buttons */
+    color: #fff;
+}
 
-    /* Button styles */
-    .btn {
-        padding: 6px 12px;
-        border: none;
+/* Center the buttons */
+.btn-content {
+    text-align: center;
+}
+
+.btn-danger {
+    background-color: #dc3545; /* Red color for deactivate button */
+}
+
+.btn-success {
+    background-color: #28a745; /* Green color for activate button */
+}
+
+    input[type="text"],
+    input[type="email"],
+    input[type="date"],
+    
+    textarea {
+        
+        border: 1px solid black; /* Set input border color to black */
         border-radius: 4px;
-        cursor: pointer;
-        font-size: 14px;
-        text-transform: uppercase;
+        box-sizing: border-box;
     }
-
-    .btn-danger {
-        background-color: #dc3545; /* Red color for deactivate button */
-        color: #fff;
-    }
-
-    .btn-success {
-        background-color: #28a745; /* Green color for activate button */
-        color: #fff;
+    h1 {
+        color:#4d4f68;
+        font-weight: bold;
+        
     }
     </style>
 </head>
 <body>
     <!-- Header -->
     <div class="header">
-        <h1 class="page-title">Admin Dashboard</h1>
+        <h1 class="page-title"> Dashboard</h1>
         <a href="{% url 'logout' %}" class="btn btn-primary" id="logout-link">Logout</a>
     </div>
 
@@ -203,11 +223,16 @@
   <div class="sidebar">
     <ul>
         <li><a href="#">Dashboard</a></li>
+         <li><a href="{% url 'accountorg' %}">Account</a></li> 
         <li><a href="{% url 'regusers' %}">Regular Users</a></li>
         <li><a href="{% url 'cusers' %}">Company Users</a></li>
         
         <li><a href="{% url 'addequip' %}">Add Equipments</a></li>
         <li><a href="{% url 'view_equip' %}">View Equipments</a></li>
+        <li><a href="{% url 'add_driver' %}">Add Drivers</a></li>
+        <li><a href="{% url 'view_drivers' %}">View Drivers</a></li>
+        <li><a href="{% url 'add_technician' %}">Add Technician</a></li>
+        <li><a href="{% url 'view_technician' %}">View Technician</a></li>
         {% comment %} <li>
             <label for="view-equipments">View Equipments:</label>
             <select id="view-equipments" onchange="location = this.value;">
@@ -229,12 +254,12 @@
                   <div class="container">
                     <div class="row">
                       <div class="col-md-6">
-                        <div class="card">
+                        {% comment %} <div class="card">
                           <div class="card-body">
                             <h5 class="card-title">Total Users</h5>
                             <p class="card-text">{{ user_count }}</p>
                           </div>
-                        </div>
+                        </div> {% endcomment %}
                       </div>
                       <div class="col-md-6">
                       <!-- Add any additional statistics or content here -->
@@ -247,26 +272,88 @@
     <h1>Add Driver</h1>
     <form method="post">
         {% csrf_token %}
-        <label for="name">Name:</label><br>
-        <input type="text" id="name" name="name" required><br>
+        <label for="name" style="color: blue; font-weight: bold;">Name:</label><br>
+        <input type="text" id="name" name="name" pattern="[A-Za-z][A-Za-z\s]+" title="Name should contain only letters and spaces, with the first letter capitalized" required><br>
 
-        <label for="license_number">License Number:</label><br>
-        <input type="text" id="license_number" name="license_number" required><br>
+        <label for="license_number" style="color: blue; font-weight: bold;">License Number:</label><br>
+        <input type="text" id="license_number" name="license_number" pattern="[A-Za-z0-9\s-]{16}" title="License number should contain 16 characters, including letters, numbers, spaces, and dashes" required><br>
 
-        <label for="date_of_birth">Date of Birth:</label><br>
-        <input type="date" id="date_of_birth" name="date_of_birth" required><br>
+        <label for="date_of_birth" style="color: blue; font-weight: bold;" >Date of Birth:</label><br>
+        <input type="date" id="date_of_birth" name="date_of_birth"  required><br>
 
-        <label for="address">Address:</label><br>
+        <label for="address" style="color: blue; font-weight: bold;">Address:</label><br>
         <input type="text" id="address" name="address" required><br>
 
-        <label for="phone_number">Phone Number:</label><br>
-        <input type="text" id="phone_number" name="phone_number" required><br>
+        <label for="phone_number" style="color: blue; font-weight: bold;">Phone Number:</label><br>
+        <input type="text" id="phone_number" name="phone_number" pattern="[0-9]{10}" title="Phone number should contain exactly 10 digits" required><br>
 
-        <label for="email">Email:</label><br>
-        <input type="email" id="email" name="email" required><br>
+        <label for="email" style="color: blue; font-weight: bold;">Email:</label><br>
+        <input type="email" id="email" name="email" required><br><br>
 
-        <input type="submit" value="Submit">
+        <input type="submit" value="Submit"  style="background-color: #007bff; color: #fff;">
     </form>
+    <script>
+    // Calculate minimum and maximum dates
+    var today = new Date();
+    var minDate = new Date(today);
+    minDate.setFullYear(minDate.getFullYear() - 50); // 50 years ago
+    var maxDate = new Date(today);
+    maxDate.setFullYear(maxDate.getFullYear() - 18); // 18 years ago
+
+    // Format the dates as strings in 'YYYY-MM-DD' format
+    var minDateString = minDate.toISOString().split('T')[0];
+    var maxDateString = maxDate.toISOString().split('T')[0];
+
+    // Set the min and max attributes of the date input field
+    document.getElementById('date_of_birth').setAttribute('min', minDateString);
+    document.getElementById('date_of_birth').setAttribute('max', maxDateString);
+
+
+     // Get the license number input field
+    var licenseNumberInput = document.getElementById('license_number');
+
+    // Add an event listener for input changes
+    licenseNumberInput.addEventListener('input', function() {
+        // Get the value of the license number input field
+        var licenseNumber = licenseNumberInput.value;
+
+        // Define a regular expression pattern for the license number
+        var pattern = /^[A-Z\d -]{16}$/;
+
+        // Test if the license number matches the pattern
+        if (!pattern.test(licenseNumber)) {
+            // If the license number is invalid, show a message to the user
+            licenseNumberInput.setCustomValidity('License number should contain exactly 16 digits with optional hyphens or spaces.');
+        } else {
+            // If the license number is valid, clear any previous validation message
+            licenseNumberInput.setCustomValidity('');
+        }
+    });
+
+
+
+    // Get the name input field
+var nameInput = document.getElementById('name');
+
+// Add an event listener for input changes
+nameInput.addEventListener('input', function() {
+    // Get the value of the name input field
+    var name = nameInput.value;
+
+    // Define a regular expression pattern for the name
+    var pattern = /^[A-Z][a-zA-Z]*$/;
+
+    // Test if the name matches the pattern
+    if (!pattern.test(name)) {
+        // If the name is invalid, show a message to the user
+        nameInput.setCustomValidity('Name should contain only alphabets and start with a capital letter.');
+    } else {
+        // If the name is valid, clear any previous validation message
+        nameInput.setCustomValidity('');
+    }
+});
+</script>
+
 </body>
 </html>
 

@@ -236,7 +236,7 @@
 <body>
     <!-- Header -->
     <div class="header">
-        <h1 class="page-title">Admin Dashboard</h1>
+        <h1 class="page-title">Dashboard</h1>
         <a href="{% url 'logout' %}" class="btn btn-primary" id="logout-link">Logout</a>
     </div>
 
@@ -244,6 +244,7 @@
   <div class="sidebar">
     <ul>
         <li><a href="#">Dashboard</a></li>
+         <li><a href="{% url 'accountorg' %}">Account</a></li> 
         <li><a href="{% url 'regusers' %}">Regular Users</a></li>
         <li><a href="{% url 'cusers' %}">Company Users</a></li>
         
@@ -297,6 +298,7 @@
             <th>Expertise</th>
             <th>Email</th>
             <th>Address</th>
+            <th>Edit & Delete</th>
         </tr>
     </thead>
     <tbody>
@@ -307,6 +309,13 @@
             <td>{{ technician.expertise }}</td>
             <td>{{ technician.email }}</td>
             <td>{{ technician.address }}</td>
+            <td>
+                <!-- Edit button: Link to the edit view with the technician's ID -->
+                <a href="{% url 'edit_technician' technician.tech_id %}" class="btn btn-primary">Edit</a>
+                <!-- Delete button: Link to the delete view with the technician's ID -->
+                <a href="{% url 'delete_technician' technician.tech_id %}" class="btn btn-danger">Delete</a>
+            </td>
+
         </tr>
         {% endfor %}
     </tbody>

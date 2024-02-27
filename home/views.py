@@ -8,6 +8,7 @@ from django.contrib import auth
 from django.contrib import messages
 from django.contrib.auth.models import User
 from home.models import CustomUser
+from django.contrib.auth import get_user_model
 
 # Create your views here.
 @never_cache  # Add this decorator to prevent caching
@@ -60,10 +61,10 @@ def admindash(request):
      
 @login_required(login_url='login')
 def dashboardOrg(request):
-     if request.user.is_superuser:
-        users = CustomUser.objects.exclude(is_superuser=True)
-        return render(request, "dashboardOrg.html", {"users": users})
-     return render(request, "dashboardOrg.html", {})
+    User = get_user_model()
+    user_count = User.objects.exclude(is_superuser=True).count()
+    users = User.objects.exclude(is_superuser=True) if request.user.is_superuser else None
+    return render(request, "dashboardOrg.html", {"user_count": user_count, "users": users})
      
 @never_cache
 def dashboard(request):
@@ -346,6 +347,17 @@ def get_cart_count(request):
     return cart_count
 
 
+from django.shortcuts import render
+from django.contrib.auth.models import User  # Assuming you're using Django's built-in User model
+
+def user_list(request):
+    users = User.objects.all()
+    user_count = users.count()  # Calculate the total user count
+    context = {
+        'users': users,
+        'user_count': user_count,  # Pass the user count to the template context
+    }
+    return render(request, 'user_list.html', context)
 
 
 from django.shortcuts import render
@@ -1064,7 +1076,7 @@ def edit_driver(request, driver_id):
         driver.license_number = request.POST.get('license_number')
         # Convert the date string to the YYYY-MM-DD format
         date_of_birth_str = request.POST.get('date_of_birth')
-        date_of_birth = datetime.strptime(date_of_birth_str, '%B %d, %Y').strftime('%Y-%m-%d')
+        date_of_birth = datetime.strptime(date_of_birth_str, '%b. %d, %Y').strftime('%Y-%m-%d')
         driver.date_of_birth = date_of_birth
         driver.address = request.POST.get('address')
         driver.phone_number = request.POST.get('phone_number')
@@ -1100,6 +1112,32 @@ from .models import Technician
 def view_technician(request):
     technician = Technician.objects.all()
     return render(request, 'view_technician.html', {'technician': technician})
+
+from django.shortcuts import render, redirect, get_object_or_404
+from .models import Technician
+
+def edit_technician(request, tech_id):
+    technician = Technician.objects.get(tech_id=tech_id)
+
+    if request.method == 'POST':
+        technician.name = request.POST['name']
+        technician.phone_number = request.POST['phone_number']
+        technician.expertise = request.POST['expertise']
+        technician.email = request.POST['email']
+        technician.address = request.POST['address']
+        technician.save()
+        return redirect('view_technician')
+
+    return render(request, 'edit_technician.html', {'technician': technician})
+
+from django.shortcuts import redirect, get_object_or_404
+from .models import Technician
+
+def delete_technician(request, tech_id):
+    technician = Technician.objects.get(tech_id=tech_id)
+    technician.delete()
+    return redirect('view_technician')
+
 
 
 # from django.shortcuts import render, redirect
@@ -1191,3 +1229,67 @@ def book_equipment(request):
 #     else:
 #         # Handle other request methods (e.g., PUT, DELETE)
 #         return HttpResponse("Unsupported request method.")
+
+
+
+
+
+
+
+
+
+from django.http import JsonResponse
+from django.shortcuts import render
+
+def emergency_service_view(request):
+    if request.method == 'POST':
+        # Extract user details from the request
+        user_details = {
+            'username': request.POST.get('username'),
+            'email': request.POST.get('email'),
+            'phone_number': request.POST.get('phone_number'),
+            # Add more user details as needed
+        }
+
+        # Send the emergency service request and user details to the warehouse
+        # Example: You can use Django signals or external APIs to send the request
+        # For demonstration purposes, we'll print the details to the console
+        print("Emergency Service Request Received:")
+        print(user_details)
+
+        # Return a JSON response indicating success
+        return JsonResponse({'message': 'Emergency service request sent successfully.'})
+    else:
+        # Handle GET request, render a template if needed
+        return render(request, 'emergency_service_view.html')
+
+
+
+
+
+from django.shortcuts import render
+from .models import Product
+
+def search_presults(request):
+    products = Product.objects.all()
+
+    # Filter products based on user input
+    name = request.GET.get('name')
+    category = request.GET.get('category')
+    availability = request.GET.get('availability')
+    min_price = request.GET.get('min_price')
+    max_price = request.GET.get('max_price')
+
+    if name:
+        products = products.filter(name__icontains=name)
+    if category:
+        products = products.filter(category__icontains=category)
+    if availability:
+        products = products.filter(availability=availability)
+    if min_price:
+        products = products.filter(price_per_day__gte=min_price)
+    if max_price:
+        products = products.filter(price_per_day__lte=max_price)
+
+    context = {'products': products}
+    return render(request, 'search_presults.html', context)

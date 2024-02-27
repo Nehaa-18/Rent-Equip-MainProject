@@ -1,9 +1,55 @@
+{% comment %} <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Results</title>
+</head>
+<body>
+    <h1>Search Results</h1>
+    <form action="{% url 'search_presults' %}" method="GET">
+        <input type="text" name="query" value="{{ query }}" placeholder="Search...">
+        <button type="submit">Search</button>
+    </form>
+    <hr>
+    <h2>Matching Products</h2>
+    <ul>
+        {% for product in equips %}
+        <li>{{ product.name }}</li>
+        <!-- Display other product details as needed -->
+        {% endfor %}
+    </ul>
+</body>
+</html>
+ {% endcomment %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard</title>
+    <title>Dashboard</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
@@ -158,49 +204,59 @@
     <!-- Header -->
     <div class="header">
         <h1 class="page-title">Dashboard</h1>
+        <form action="{% url 'search_results' %}" method="GET" class="search-form">
+            <input type="text" name="name" placeholder="Search by name..." class="search-input">
+            <input type="text" name="category" placeholder="Search by category..." class="search-input">
+            <select name="availability" class="search-input">
+                <option value="">Any Availability</option>
+                <option value="available">Available</option>
+                <option value="unavailable">Unavailable</option>
+            </select>
+            <input type="number" name="min_price" placeholder="Min price..." class="search-input">
+            <input type="number" name="max_price" placeholder="Max price..." class="search-input">
+            <button type="submit" class="btn btn-primary search-btn">Search</button>
+        </form>
         <a href="{% url 'logout' %}" class="btn btn-primary" id="logout-link">Logout</a>
     </div>
 
-    <!-- Sidebar -->
-    <div class="sidebar">
-    <ul>
-        <li><a href="#">Dashboard</a></li>
-         <li><a href="{% url 'accountorg' %}">Account</a></li> 
-        <li><a href="{% url 'regusers' %}">Regular Users</a></li>
-        <li><a href="{% url 'cusers' %}">Company Users</a></li>
-        
-        <li><a href="{% url 'addequip' %}">Add Equipments</a></li>
-        <li><a href="{% url 'view_equip' %}">View Equipments</a></li>
-        <li><a href="{% url 'add_driver' %}">Add Drivers</a></li>
-        <li><a href="{% url 'view_drivers' %}">View Drivers</a></li>
-        <li><a href="{% url 'add_technician' %}">Add Technician</a></li>
-        <li><a href="{% url 'view_technician' %}">View Technician</a></li>
-          
-    </ul>
-</div>
-
- <br><br>
-    <br><br>
+    <!-- Display Matching Products -->
     <div class="table-container">
-     
-    <h1>Delete Driver</h1>
-    <p>Are you sure you want to delete "{{ driver.name }}"?</p>
-    <form action="" method="post">
-        {% csrf_token %}
-        <input type="submit" value="Delete">
-    </form>
-
-        </div>
+        <!-- Product Details Table -->
+        <h2 class="center-heading">Matching Products</h2>
+        <table class="table table-striped small-table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Rating</th>
+                    <th>Description</th>
+                    <th>Price</th>
+                    <th>Category</th>
+                    <th>Availability</th>
+                    <th>Image</th>
+                    <th>Edit & Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for product in equips %}
+                <tr>
+                    <td>{{ product.name }}</td>
+                    <td>{{ product.rating }}</td>
+                    <td>{{ product.description }}</td>
+                    <td>{{ product.price_per_day }}</td>
+                    <td>{{ product.category }}</td>
+                    <td>{{ product.availability }}</td>
+                    <td><img src="{{ product.image.url }}" alt="{{ product.name }}" style="max-width: 100px; max-height: 100px;"></td>
+                    <td>
+                        <!-- Edit button: Link to the edit view with the product's ID -->
+                        <a href="{% url 'edit_product' product.id %}" class="btn btn-primary">Edit</a>
+                        <!-- Delete button: Link to the delete view with the product's ID -->
+                        <a href="{% url 'delete_product' product.id %}" class="btn btn-danger">Delete</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     </div>
-    <script>
-        function confirmBlock(username, userId) {
-            console.log('Button clicked'); // Add this line to check if the function is called
-            if (confirm(Do you want to block ${username}?)) {
-                // If the admin confirms, redirect to the block_user view
-                window.location.href = /block_user/${userId};
-            }
-        }
-    </script>
 
     <!-- Include Bootstrap JS -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>

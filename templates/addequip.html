@@ -181,6 +181,41 @@ input[type=submit] {
 .wide-dropdown {
   width: 100%; /* Adjust this value to your desired width */
 }
+ h1 {
+        color: #4d4f68;;
+        font-weight: bold;
+        text-align: center;
+    }
+ input[type="text"],
+    input[type="category"],
+    input[type="number"],
+    
+    textarea {
+        
+        border: 1px solid black; /* Set input border color to black */
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+
+    
+/* Button styles */
+.btn {
+    padding: 6px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    text-transform: uppercase;
+    background-color: #007bff; /* Blue color for buttons */
+    color: #fff;
+}
+
+/* Center the button */
+.center-btn {
+    display: block;
+    margin: 0 auto;
+    text-align: center;
+}
 
     </style>
 </head>
@@ -200,6 +235,10 @@ input[type=submit] {
         
         <li><a href="{% url 'addequip' %}">Add Equipments</a></li>
         <li><a href="{% url 'view_equip' %}">View Equipments</a></li>
+        <li><a href="{% url 'add_driver' %}">Add Drivers</a></li>
+        <li><a href="{% url 'view_drivers' %}">View Drivers</a></li>
+        <li><a href="{% url 'add_technician' %}">Add Technician</a></li>
+        <li><a href="{% url 'view_technician' %}">View Technician</a></li>
         {% comment %} <li>
             <label for="view-equipments">View Equipments:</label>
             <select id="view-equipments" onchange="location = this.value;">
@@ -221,12 +260,12 @@ input[type=submit] {
                   <div class="container">
                     <div class="row">
                       <div class="col-md-6">
-                        <div class="card">
+                        {% comment %} <div class="card">
                           <div class="card-body">
                             <h5 class="card-title">Total Users</h5>
                             <p class="card-text">{{ user_count }}</p>
                           </div>
-                        </div>
+                        </div> {% endcomment %}
                       </div>
                       <div class="col-md-6">
                       <!-- Add any additional statistics or content here -->
@@ -239,11 +278,10 @@ input[type=submit] {
 <h1>Add Product</h1>
 <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
-
    <div class="container">
       <div class="row">
         <div class="col-25">
-          <label for="equipname">Equipment Name</label>
+          <label for="equipname" style="color: blue; font-weight: bold;">Equipment Name</label>
         </div>
         <div class="col-75">
           <input type="text" id="name" name="name" placeholder="Equipment Name">
@@ -251,7 +289,7 @@ input[type=submit] {
       </div>
       <div class="row">
         <div class="col-25">
-          <label for="rating">Rating</label>
+          <label for="rating" style="color: blue; font-weight: bold;">Rating</label>
         </div>
         <div class="col-75">
           <input type="number" id="rating" name="rating" placeholder="Rating (0 to 5)">
@@ -259,7 +297,7 @@ input[type=submit] {
       </div>
       <div class="row">
         <div class="col-25">
-          <label for="description">Description</label>
+          <label for="description" style="color: blue; font-weight: bold;">Description</label>
         </div>
         <div class="col-75">
           <textarea id="description" name="description" placeholder="Description"></textarea>
@@ -267,7 +305,7 @@ input[type=submit] {
       </div>
       <div class="row">
         <div class="col-25">
-          <label for="price">Price</label>
+          <label for="price" style="color: blue; font-weight: bold;">Price</label>
         </div>
         <div class="col-75">
           <input type="number" id="price_per_day" name="price_per_day" placeholder="Price">
@@ -278,7 +316,7 @@ input[type=submit] {
 
   <div class="row">
         <div class="col-25">
-          <label for="category">Category</label>
+          <label for="category" style="color: blue; font-weight: bold;">Category</label>
         </div>
         <div class="col-75">
           <select id="category" name="category" onchange="populateSubcategories()">
@@ -294,7 +332,7 @@ input[type=submit] {
 
 <div class="row">
         <div class="col-25">
-          <label for="subcategory">Subcategory</label>
+          <label for="subcategory" style="color: blue; font-weight: bold;">Subcategory</label>
         </div>
         <div class="col-75">
           <input type="text" id="subcategory" name="subcategory" placeholder="Enter Subcategory">
@@ -305,7 +343,7 @@ input[type=submit] {
 
 <div class="row">
         <div class="col-25">
-          <label for="availability">Availability</label>
+          <label for="availability" style="color: blue; font-weight: bold;">Availability</label>
         </div>
         <div class="col-75">
           <input type="checkbox" id="availability" name="availability" value="True"> In Stock
@@ -315,7 +353,7 @@ input[type=submit] {
 
       <div class="row">
         <div class="col-25">
-          <label for="image">Upload Image</label>
+          <label for="image" style="color: blue; font-weight: bold;">Upload Image</label>
         </div>
         <div class="col-75">
           <input type="file" id="image" name="image">
@@ -323,7 +361,7 @@ input[type=submit] {
       </div>
     </div>
 
-        <button type="submit">Add Product</button>
+        <button type="submit" class="btn center-btn">Add Product</button>
     </div>
 </form>
 {% endblock %}

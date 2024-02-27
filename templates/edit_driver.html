@@ -165,11 +165,15 @@
     <div class="sidebar">
     <ul>
         <li><a href="#">Dashboard</a></li>
+         <li><a href="{% url 'accountorg' %}">Account</a></li> 
         <li><a href="{% url 'regusers' %}">Regular Users</a></li>
         <li><a href="{% url 'cusers' %}">Company Users</a></li>
-        
         <li><a href="{% url 'addequip' %}">Add Equipments</a></li>
         <li><a href="{% url 'view_equip' %}">View Equipments</a></li>
+        <li><a href="{% url 'add_driver' %}">Add Drivers</a></li>
+        <li><a href="{% url 'view_drivers' %}">View Drivers</a></li>
+        <li><a href="{% url 'add_technician' %}">Add Technician</a></li>
+        <li><a href="{% url 'view_technician' %}">View Technician</a></li>
           
     </ul>
 </div>
