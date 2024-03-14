@@ -1186,7 +1186,7 @@ def book_equipment(request):
         # Handle form submission
         pass  # Placeholder for handling form submission
     else:
-        return render(request, 'booking_form.html', {'product_id': product_id, 'name': name})
+        return render(request, 'book_equipment.html', {'product_id': product_id, 'name': name})
 
 
 
@@ -1238,30 +1238,6 @@ def book_equipment(request):
 
 
 
-from django.http import JsonResponse
-from django.shortcuts import render
-
-def emergency_service_view(request):
-    if request.method == 'POST':
-        # Extract user details from the request
-        user_details = {
-            'username': request.POST.get('username'),
-            'email': request.POST.get('email'),
-            'phone_number': request.POST.get('phone_number'),
-            # Add more user details as needed
-        }
-
-        # Send the emergency service request and user details to the warehouse
-        # Example: You can use Django signals or external APIs to send the request
-        # For demonstration purposes, we'll print the details to the console
-        print("Emergency Service Request Received:")
-        print(user_details)
-
-        # Return a JSON response indicating success
-        return JsonResponse({'message': 'Emergency service request sent successfully.'})
-    else:
-        # Handle GET request, render a template if needed
-        return render(request, 'emergency_service_view.html')
 
 
 
@@ -1293,3 +1269,77 @@ def search_presults(request):
 
     context = {'products': products}
     return render(request, 'search_presults.html', context)
+
+
+
+
+
+
+# views.py
+
+from django.shortcuts import render, redirect
+from .models import MaintenanceRequest
+
+def maintenance_request(request, product_id):
+    if request.method == 'POST':
+        user = request.user
+        equipment = Product.objects.get(pk=product_id)
+        description = request.POST.get('description')
+        MaintenanceRequest.objects.create(user=user, equipment=equipment, description=description)
+        return redirect('maintenance_request_confirmation')  # Redirect to a confirmation page
+    else:
+        return render(request, 'maintenance_request')
+
+
+
+
+
+from django.shortcuts import render, redirect
+
+def submit_feedback(request):
+    if request.method == 'POST':
+        # Retrieve form data from POST request
+        name = request.POST.get('name')
+        email = request.POST.get('email')
+        message = request.POST.get('message')
+        
+        # Perform validation if necessary
+        
+        # Process the feedback (e.g., save to database, send email, etc.)
+        # For demonstration, we'll just print the data
+        print(f"Name: {name}, Email: {email}, Message: {message}")
+        
+        # Redirect after processing the feedback
+        return redirect('feedback_success')  # Assuming you have a 'feedback_success' URL pattern
+        
+    return render(request, 'feedback_form.html')
+
+
+
+from django.shortcuts import render
+
+def delivery(request):
+    return render(request, 'delivery.html')
+
+
+
+
+
+
+from django.shortcuts import render, redirect
+from django.http import JsonResponse
+from .models import Review
+from django.http import JsonResponse
+def submit_review(request, product_id):
+    if request.method == 'POST':
+        product = get_object_or_404(Product, pk=product_id)
+        text = request.POST.get('review_text')
+        Review.objects.create(product=product, text=text)
+        return redirect('product_detail', product_id=product_id)
+    else:
+        return redirect('product_detail', product_id=product_id)
+    
+
+def review_list(request):
+    reviews = Review.objects.all()
+    return render(request, 'review_list.html', {'reviews': reviews})

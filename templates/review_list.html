@@ -1,3 +1,51 @@
+{% comment %} <!-- add_driver.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Driver</title>
+</head>
+<body>
+    <h1>Add Driver</h1>
+    <form method="post">
+        {% csrf_token %}
+        <label for="name">Name:</label><br>
+        <input type="text" id="name" name="name" required><br>
+
+        <label for="license_number">License Number:</label><br>
+        <input type="text" id="license_number" name="license_number" required><br>
+
+        <label for="date_of_birth">Date of Birth:</label><br>
+        <input type="date" id="date_of_birth" name="date_of_birth" required><br>
+
+        <label for="address">Address:</label><br>
+        <input type="text" id="address" name="address" required><br>
+
+        <label for="phone_number">Phone Number:</label><br>
+        <input type="text" id="phone_number" name="phone_number" required><br>
+
+        <label for="email">Email:</label><br>
+        <input type="email" id="email" name="email" required><br>
+
+        <input type="submit" value="Submit">
+    </form>
+</body>
+</html>
+ {% endcomment %}
+
+
+
+
+
+
+
+
+
+
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -124,12 +172,6 @@
     .table tbody tr:nth-child(even) {
         background-color: #f2f2f2; /* Light grey color */
     }
-    .table-container {
-    margin: 0 auto; /* Center the container horizontally */
-    width: 80%; /* Adjust the width as needed */
-    margin-left: 20%; /* Move the container 20% from the left */
-}
-
 
     /* Button styles */
     .btn {
@@ -152,24 +194,57 @@
     }
 
 
+    /* Table styles */
+.small-table {
+    width: 80%; /* Set the width of the table */
+    margin: 0 auto; /* Center the table horizontally */
+    margin-left: 10%; /* Move the table more towards the right side */
+    border-collapse: collapse; /* Collapse table borders */
+}
+
+/* Table header styles */
+.small-table thead th {
+    background-color: #4d4f68; /* Navy color */
+    color: #fff;
+    padding: 10px;
+    text-align: left;
+    border-bottom: 2px solid #ddd; /* Light grey color */
+}
+
+/* Table body styles */
+.small-table tbody td {
+    padding: 10px;
+    border-bottom: 1px solid #ddd; /* Light grey color */
+}
+
+/* Alternate row background color */
+.small-table tbody tr:nth-child(even) {
+    background-color: #f2f2f2; /* Light grey color */
+}
+
+
+
+
+.bg-light-violet {
+    background-color: #d3d3e9; /* Light violet color */
+    padding: 20px; /* Add padding for spacing */
+}
+
+
     </style>
 </head>
 <body>
     <!-- Header -->
     <div class="header">
         <h1 class="page-title">Dashboard</h1>
-        <form action="{% url 'view_equip' %}" method="GET" class="search-form">
-        <input type="text" name="query" placeholder="Search..." class="search-input">
-        <button type="submit" class="btn btn-primary search-btn">Search</button>
-    </form>
         <a href="{% url 'logout' %}" class="btn btn-primary" id="logout-link">Logout</a>
     </div>
 
     <!-- Sidebar -->
-    <div class="sidebar">
+  <div class="sidebar">
     <ul>
         <li><a href="#">Dashboard</a></li>
-         <li><a href="{% url 'accountorg' %}">Account</a></li>
+         <li><a href="{% url 'accountorg' %}">Account</a></li> 
         <li><a href="{% url 'regusers' %}">Regular Users</a></li>
         <li><a href="{% url 'cusers' %}">Company Users</a></li>
         
@@ -178,66 +253,64 @@
         <li><a href="{% url 'add_driver' %}">Add Drivers</a></li>
         <li><a href="{% url 'view_drivers' %}">View Drivers</a></li>
         <li><a href="{% url 'add_technician' %}">Add Technician</a></li>
-        <li><a href="{% url 'view_technician' %}">View Technician</a></li>  
+        <li><a href="{% url 'view_technician' %}">View Technician</a></li>
+        {% comment %} <li>
+            <label for="view-equipments">View Equipments:</label>
+            <select id="view-equipments" onchange="location = this.value;">
+                <option value="" selected>Select an option</option>
+                <option value="{% url 'view_equip' %}">All Equipments</option>
+                <option value=>Moving Equipment</option>
+                <option value=>Office Equipment</option>
+                <!-- Add more options for different equipment categories -->
+            </select>
+        </li> {% endcomment %}
+        <!-- <li><a href="">Blocked users</a></li> -->
     </ul>
-</div>
+  </div>
 
- <br><br>
-    <br><br>
-    <div class="table-container">
+
+    <!-- Main content -->
+    <div class="content">
+        <!-- Content area -->
+                  <div class="container ">
+                    <div class="row">
+                      <div class="col-md-6">
+                        
+                      </div>
+                      <div class="col-md-6">
+                      <!-- Add any additional statistics or content here -->
+                      </div>
+                  </div>
+
             <!-- User table -->
-            <h2 class="center-heading"> PRODUCT DETAILS</h2>
             
-            <table class="table table-striped small-table">
-                <thead>
-                    <tr>
-                <th>Name</th>
-                <th>Rating </th>
-                <th>Description</th>
-                <th>Price</th>
-                <th>Category</th>
-                <th>Availability</th>
-                <th>Image</th>
-                <th>Edit & Delete</th>
-                
-                    </tr>
-                </thead>
-                <tbody>
-                 {% for product  in equips %}
-            <tr>
-                <td>{{ product.name }}</td>
-                <td>{{ product.rating}}</td>
-                <td>{{ product.description}}</td>
-                <td>{{ product.price_per_day}}</td>
-                <td>{{ product.category}}</td>
-                <td>{{ product.availability}}</td>
-                <td> <img src="{{ product.image.url }}" alt="{{ product.name }}" style="max-width: 100px; max-height: 100px;"></td>
-                <td>
-                <!-- Edit button: Link to the edit view with the product's ID -->
-                <a href="{% url 'edit_product' product.id %}" class="btn btn-primary">Edit</a>
-                
-                <!-- Delete button: Link to the delete view with the product's ID -->
-                <a href="{% url 'delete_product' product.id %}" class="btn btn-danger">Delete</a>
-            </td>
-            </tr>
-            {% endfor %}   
-                </tbody>
-            </table>
-        </div>
-    </div>
-    <script>
-        function confirmBlock(username, userId) {
-            console.log('Button clicked'); // Add this line to check if the function is called
-            if (confirm(Do you want to block ${username}?)) {
-                // If the admin confirms, redirect to the block_user view
-                window.location.href = /block_user/${userId};
-            }
-        }
-    </script>
+  <h1>Reviews By User</h1>
+<table class="table-striped small-table">
+    <thead>
+        <tr>
+            <th>User</th>
+            <th>Review</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for review in reviews %}
+        <tr>
+            <td>{{ user.username }}</td>
+            <td>{{ review.text }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="2">No reviews yet.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
 
-    <!-- Include Bootstrap JS -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
+
+
+
+
+
+

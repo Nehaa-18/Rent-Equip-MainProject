@@ -208,7 +208,7 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Home</a>
+                    <a class="nav-link" href="dashboard">Home</a>
                 </li>
                 <!-- Dropdown for All Categories -->
                 <nav>
@@ -237,40 +237,65 @@
     </div>
 </nav>
 
-
 <main>
     <div class="container">
         <div class="row">
-            {% for product in products %}
-                <div class="col-md-4 mb-4">
-                    <div class="card">
-                        <a href="{% url 'product_detail' product.id %}">
-                            <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}">
-                        </a>
-                        <div class="card-body">
-                            <h5 class="card-title">{{ product.name }}</h5>
-                            <p class="card-text">{{ product.description }}</p>
-                            <p class="card-text">Rating: {{ product.rating }}</p>
-                            <p class="card-text">Price per day: Rs. {{ product.price_per_day }}</p>
-                            {% if product.availability %}
-                                <p class="card-text">Availability: In Stock</p>
-                            {% else %}
-                                <p class="card-text">Availability: Out of Stock</p>
-                            {% endif %}
-                            <div class="d-flex justify-content-between align-items-center">
-                                <form method="post" action="{% url 'add-to-cart' product.id %}">
-                                    {% csrf_token %}
-                                    <button type="submit" class="btn btn-primary">Add to cart</button>
-                                </form>
-                                <form method="post" action="{% url 'add_to_wishlist' product.id %}">
-                                    {% csrf_token %}
-                                    <button type="submit" class="btn btn-info">Add to wishlist</button>
-                                </form>
+            <div class="col-md-3">
+                <div class="card mb-4">
+                    <div class="card-header">
+                     <b> FILTER PRICE </b>
+                    </div>
+                    <div class="card-body">
+                        <form id="priceFilterForm">
+                            <div class="mb-3">
+                                <label for="priceRangeSelect" class="form-label">Select Price Range</label>
+                                <select class="form-select" id="priceRangeSelect">
+                                    <option value="0-1000">Below 1000</option>
+                                    <option value="0-2000">Below 2000</option>
+                                    <option value="0-500">Below 500</option>
+                                    <option value="500-1000">500 to 1000</option>
+                                    <option value="5000-999999">5000 and above</option>
+                                </select>
                             </div>
-                        </div>
+                            <button type="submit" class="btn btn-primary">Apply</button>
+                        </form>
                     </div>
                 </div>
-            {% endfor %}
+            </div>
+            <div class="col-md-9">
+                <div class="row row-cols-1 row-cols-md-3 g-4" id="productList">
+                    {% for product in products %}
+                        <div class="col mb-4">
+                            <div class="card h-100">
+                                <a href="{% url 'product_detail' product.id %}">
+                                    <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}">
+                                </a>
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ product.name }}</h5>
+                                    <p class="card-text">{{ product.description }}</p>
+                                    <p class="card-text">Rating: {{ product.rating }}</p>
+                                    <p class="card-text">Price per day: Rs. {{ product.price_per_day }}</p>
+                                    {% if product.availability %}
+                                        <p class="card-text">Availability: In Stock</p>
+                                    {% else %}
+                                        <p class="card-text">Availability: Out of Stock</p>
+                                    {% endif %}
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <form method="post" action="{% url 'add-to-cart' product.id %}">
+                                            {% csrf_token %}
+                                            <button type="submit" class="btn btn-primary">Add to cart</button>
+                                        </form>
+                                        <form method="post" action="{% url 'add_to_wishlist' product.id %}">
+                                            {% csrf_token %}
+                                            <button type="submit" class="btn btn-info">Add to wishlist</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
         </div>
     </div>
 </main>
@@ -395,6 +420,49 @@
     });
 
      // end of Search function
+
+     
+
+// Filtering script starts
+    document.addEventListener('DOMContentLoaded', function () {
+        const priceFilterForm = document.getElementById('priceFilterForm');
+        const productList = document.getElementById('productList');
+        
+        priceFilterForm.addEventListener('submit', function (event) {
+            event.preventDefault(); // Prevent form submission
+            
+            const priceRangeSelect = document.getElementById('priceRangeSelect');
+            const selectedPriceRange = priceRangeSelect.value;
+            
+            // Filter products based on the selected price range
+            filterProducts(selectedPriceRange);
+        });
+        
+        function filterProducts(selectedPriceRange) {
+            const products = document.querySelectorAll('.col.mb-4'); // Get all product cards
+            
+            products.forEach(function (product) {
+                const productPrice = parseFloat(product.querySelector('.card-text:nth-child(4)').textContent.replace('Price per day: Rs. ', ''));
+                const productVisible = isProductVisible(productPrice, selectedPriceRange);
+                
+                // Show/hide product based on visibility
+                product.style.display = productVisible ? 'block' : 'none';
+            });
+        }
+        
+        function isProductVisible(productPrice, selectedPriceRange) {
+            const [minPrice, maxPrice] = selectedPriceRange.split('-').map(parseFloat);
+            
+            if (maxPrice === 999999) {
+                // Special case for "5000 and above"
+                return productPrice >= minPrice;
+            } else {
+                return productPrice >= minPrice && productPrice <= maxPrice;
+            }
+        }
+    });
+// Filtering script end
+
     </script>
 
     

@@ -252,10 +252,9 @@ footer {
 
 
          <!-- product_detail.html -->
-
- <main>
+<main>
     <div class="container">
-        <div class="card">
+        <div class="card mb-3">
             <div class="row g-0">
                 <div class="col-md-6">
                     <img src="{{ product.image.url }}" alt="{{ product.name }}" class="card-img-top" style="height: 300px; object-fit: cover;">
@@ -272,32 +271,60 @@ footer {
                             <p class="card-text">Availability: Out of Stock</p>
                         {% endif %}
                         {% if request.user.is_authenticated and request.user.companyprofile %}
-                            <h2>Company Details</h2>
+                            {% comment %} <h2>Company Details</h2>
                             <p>Company Name: {{ request.user.companyprofile.company_name }}</p>
                             <p>Address: {{ request.user.companyprofile.address }}</p>
-                            <p>Pincode: {{ request.user.companyprofile.pincode }}</p>
-    <!-- Other fields as needed -->
+                            <p>Pincode: {{ request.user.companyprofile.pincode }}</p> {% endcomment %}
+                            <!-- Other fields as needed -->
                         {% endif %}
-
-
                         <!-- Add other product details as needed -->
                         <div class="d-flex justify-content-between align-items-center">
-                                <form method="post" action="{% url 'add-to-cart' product.id %}">
-                                    {% csrf_token %}
-                                    <button type="submit" class="btn btn-primary">Add to cart</button>
-                                </form>
-                                <form method="post" action="{% url 'add_to_wishlist' product.id %}">
-                                    {% csrf_token %}
-                                    <button type="submit" class="btn btn-info">Add to wishlist</button>
-                                </form>
-                                 <a href="{% url 'book_equipment' %}?product_id={{ product.id }}" class="btn btn-success">Book Equipment</a>
-                            </div>
+                            <form method="post" action="{% url 'add-to-cart' product.id %}">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-primary">Add to cart</button>
+                            </form>
+                            <form method="post" action="{% url 'add_to_wishlist' product.id %}">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-info">Add to wishlist</button>
+                            </form>
+                            <a href="{% url 'book_equipment' %}?product_id={{ product.id }}" class="btn btn-success">Book Equipment</a>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+        <div class="card">
+            <div class="card-body">
+                <h2 class="card-title">Reviews</h2>
+                <ul>
+                    {% for review in product.reviews.all %}
+                        <li>{{ review.text }}</li>
+                    {% empty %}
+                        <li>No reviews yet.</li>
+                    {% endfor %}
+                </ul>
+                <h2 class="card-title">Add Review</h2>
+                <button class="btn btn-primary" onclick="openReviewForm()">Add Review</button>
+                <form id="reviewForm" method="post" action="{% url 'submit_review' product.id %}" style="display: none;">
+                    {% csrf_token %}
+                    <textarea name="review_text" class="form-control" rows="3" required></textarea><br>
+                    <button type="submit" class="btn btn-success">Submit Review</button>
+                </form>
+            </div>
+        </div>
     </div>
 </main>
+
+<script>
+    function openReviewForm() {
+        document.getElementById("reviewForm").style.display = "block";
+    }
+</script>
+
+
+
+
+
 </body>
 </html>
 

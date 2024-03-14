@@ -30,6 +30,34 @@
     margin-right: 5px; /* Add spacing between the image and text */
    }
 
+
+    /* Style for the share buttons */
+    .share-button {
+        display: inline-block;
+        padding: 3px 6px; /* Adjust padding for smaller size */
+        font-size: 10px; /* Adjust font size for smaller size */
+        font-weight: bold;
+        text-transform: uppercase;
+        border: none;
+        cursor: pointer;
+        border-radius: 5px;
+        color: #fff;
+    }
+
+    /* Style for the Facebook button */
+    .share-button.facebook {
+        background-color: #3b5998; /* Facebook blue */
+    }
+
+    /* Style for the Twitter button */
+    .share-button.twitter {
+        background-color: #55acee; /* Twitter blue */
+    }
+
+    /* Add margin between buttons */
+    .share-button + .share-button {
+        margin-left: 10px;
+    }
    </style>
    </head>
    <body>
@@ -138,10 +166,22 @@
                               <li><a href="account">User Profile</a></li>
                               {% comment %} <li><a href="order">Orders</a></li> {% endcomment %}
                               <li><a href="wishlist">Wishlist</a></li>
-                              <li><a href="emergency_service_view.html">Emergency Service</a></li>
+                              <li><a href="feedback_form">Feedback</a></li>
+                              <li><a href="maintenance_request">Maintenance Request</a></li>
                            </ul>
                         </li>
 
+
+
+                        <li class="nav-item dropdown">
+                           <a class="nav-link dropdown-toggle" href="account" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true"> <span class="nav-label"><span class="caret"></span>
+                              <img class="account-logo"  /> Share
+                           </a>
+                           <ul class="dropdown-menu">
+                              <button  class="share-button facebook" onclick="shareOnFacebook()">Share on Facebook</button>
+                           <button  class="share-button facebook" onclick="shareOnTwitter()">Share on Twitter</button>
+                           </ul>
+                        </li>
                         
 
 
@@ -515,5 +555,28 @@
             window.location.href = 'index.html';
         });
     });
+
+
+
+     function shareOnFacebook() {
+        // Generate Facebook sharing URL with appropriate parameters
+        var title = encodeURIComponent('Check out this equipment listing!');
+        var description = encodeURIComponent('Description of the equipment listing goes here.');
+        var imageUrl = encodeURIComponent('URL of the thumbnail image for the equipment listing');
+        var shareUrl = 'https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(window.location.href) + '&title=' + title + '&description=' + description + '&picture=' + imageUrl;
+        
+        // Open Facebook sharing dialog
+        window.open(shareUrl, '_blank');
+    }
+
+    function shareOnTwitter() {
+        // Generate Twitter sharing URL with appropriate parameters
+        var title = encodeURIComponent('Check out this equipment listing!');
+        var shareUrl = 'https://twitter.com/intent/tweet?url=' + encodeURIComponent(window.location.href) + '&text=' + title;
+        
+        // Open Twitter sharing dialog
+        window.open(shareUrl, '_blank');
+    }
+    // Add similar functions for other social media platforms as needed
 </script>
 

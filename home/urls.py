@@ -6,9 +6,9 @@ from django.contrib.auth import views as auth_views
 
 from django.conf import settings
 from django.conf.urls.static import static
-
-
-
+from django.urls import path
+from django.views.generic import RedirectView
+from home.views import maintenance_request
 
 
 urlpatterns = [
@@ -134,10 +134,17 @@ urlpatterns = [
     # path('booking-confirmation/', views.booking_confirmation, name='booking_confirmation'),
 
 
-
-    path('emergency-service-view', views.emergency_service_view, name='emergency_service_view'),
-
+    path('maintenance_request', RedirectView.as_view(pattern_name='maintenance_request')),  
+    path('maintenance_request/', views.maintenance_request, name='maintenance_request'),
     path('search/', views.search_presults, name='search_presults'),
+    path('feedback_form', views.submit_feedback, name='submit_feedback'),
+    path('submit_feedback/', views.submit_feedback, name='submit_feedback'),
+
+
+    path('delivery/', views.delivery, name='delivery'),
+    path('submit_review/<int:product_id>/', views.submit_review, name='submit_review'),
+   path('reviews/', views.review_list, name='review_list'),  # Add this line for the reviews page
+
 ]
 
 

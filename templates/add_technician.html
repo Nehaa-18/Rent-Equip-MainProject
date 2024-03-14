@@ -250,7 +250,7 @@ textarea {
     <h1>Add Technicians</h1>
     <form method="post" class="styled-form">
     {% csrf_token %}
-    {% comment %} <div class="form-group">
+   <div class="form-group">
         <label for="name"  style="color: blue; font-weight: bold;">Name:</label>
         <input type="text" id="name" name="name" class="form-control">
     </div>
@@ -270,26 +270,7 @@ textarea {
         <label for="address"  style="color: blue; font-weight: bold;">Address:</label>
         <textarea id="address" name="address" class="form-control"></textarea>
     </div>
-    <button type="submit" class="btn center-btn">Submit</button> {% endcomment %}
-
- <div class="technician-group">
-    <div class="technician">
-        <label for="name">Name:</label>
-        <input type="text" id="name" name="name" class="name" required>
-        <label for="phone_number">Phone Number:</label>
-        <input type="text" id="phone_number" name="phone_number" class="phone_number" required>
-        <label for="expertise">Expertise:</label>
-        <input type="text" id="expertise" name="expertise" class="expertise" required>
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" class="email" required>
-        <label for="address">Address:</label>
-        <textarea id="address" name="address" class="address" required></textarea>
-    </div>
-</div>
-
-
-<button id="add-technician">Add Technician</button>
-<button id="submit-technicians">Submit</button>
+    <button type="submit" class="btn center-btn">Submit</button>
 </form>
 
 <script>
@@ -340,90 +321,6 @@ textarea {
             }
         });
     });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// Array to store technician details
-var technicians = [];
-
-// Function to add a new technician input group
-function addTechnicianInput() {
-    var technicianGroup = document.querySelector('.technician-group');
-    var technician = technicianGroup.querySelector('.technician').cloneNode(true);
-    technicianGroup.appendChild(technician);
-}
-
-// Function to collect technician data and add to array
-function addTechnicianToArray() {
-    var technicianGroup = document.querySelector('.technician-group');
-    var technicianInputs = technicianGroup.querySelectorAll('.technician');
-    technicians = []; // Reset technicians array
-    technicianInputs.forEach(function(techInput) {
-        var technician = {
-            name: techInput.querySelector('.name').value,
-            phone_number: techInput.querySelector('.phone_number').value,
-            expertise: techInput.querySelector('.expertise').value,
-            email: techInput.querySelector('.email').value,
-            address: techInput.querySelector('.address').value
-        };
-        technicians.push(technician);
-    });
-}
-
-// Function to submit all technicians to the server
-function submitAllTechnicians() {
-    addTechnicianToArray(); // Add all technician details to array
-
-    // Send data to the server via AJAX
-    // Example using jQuery AJAX
-    $.ajax({
-        type: 'POST',
-        url: '/submit_all_technicians/', // Change to your server endpoint
-        data: JSON.stringify(technicians),
-        contentType: 'application/json',
-        success: function (response) {
-            // Handle success response
-            console.log(response);
-        },
-        error: function (xhr, status, error) {
-            // Handle error response
-            console.error(xhr.responseText);
-        }
-    });
-}
-
-// Add event listener for "Add Technician" button
-document.getElementById('add-technician').addEventListener('click', function() {
-    addTechnicianInput();
-});
-
-// Add event listener for "Submit" button
-document.getElementById('submit-technicians').addEventListener('click', function() {
-    addTechnicianToArray(); // Ensure all technician details are collected
-    submitAllTechnicians(); // Submit all technicians
-});
-
 </script>
 </body>
 </html>

@@ -254,61 +254,115 @@ from django.test import TestCase
 
 
 #==========================Profile update========================
+# from selenium import webdriver
+# from selenium.webdriver.common.by import By
+# from selenium.webdriver.support.ui import WebDriverWait
+# from selenium.webdriver.support import expected_conditions as EC
+# from django.test import LiveServerTestCase
+
+# class LoginTest(LiveServerTestCase):
+#     @classmethod
+#     def setUpClass(cls):
+#         super().setUpClass()
+#         cls.driver = webdriver.Chrome()
+#         cls.driver.maximize_window()
+
+#     @classmethod
+#     def tearDownClass(cls):
+#         cls.driver.quit()
+#         super().tearDownClass()
+
+#     def test_login_successful(self):
+#         self.driver.get(self.live_server_url + "/login.html")
+
+#         wait = WebDriverWait(self.driver, 20)  # Adjust timeout as needed
+
+#         # Wait for the username input field
+#         username_input = wait.until(EC.presence_of_element_located((By.NAME, "username")))
+#         password_input = self.driver.find_element(By.NAME, "password")
+
+#         # Input username and password
+#         username_input.send_keys("neha")
+#         password_input.send_keys("Neha@123")
+
+#         # Wait for the login button to be clickable
+#         login_button = wait.until(EC.element_to_be_clickable((By.XPATH, "//button[text()='Login']")))
+#         login_button.click()
+
+#         # Redirect to the dashboard URL after successful login
+#         dashboard_url = self.live_server_url + "/dashboard"
+#         self.driver.get(dashboard_url)
+
+#         # Select 'Account' in the dropdown
+#         account_dropdown = wait.until(EC.element_to_be_clickable((By.ID, "account-dropdown")))
+#         account_dropdown.click()
+
+#         # Select 'User Profile' from the dropdown
+#         user_profile_option = wait.until(EC.element_to_be_clickable((By.XPATH, "//a[text()='User Profile']")))
+#         user_profile_option.click()
+
+#         # Wait for the profile page to load
+#         wait.until(EC.presence_of_element_located((By.ID, "first-name")))
+
+#         # Change the first name
+#         first_name_input = self.driver.find_element(By.ID, "first-name")
+#         first_name_input.clear()
+#         first_name_input.send_keys("NewFirstName")
+
+#         # Click on the Save Changes button
+#         save_changes_button = self.driver.find_element(By.ID, "save-button")
+#         save_changes_button.click()
+
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from django.test import LiveServerTestCase
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
-class LoginTest(LiveServerTestCase):
-    @classmethod
-    def setUpClass(cls):
-        super().setUpClass()
-        cls.driver = webdriver.Chrome()
-        cls.driver.maximize_window()
+class DriverManagementTest(LiveServerTestCase):
+    # Existing code...
 
-    @classmethod
-    def tearDownClass(cls):
-        cls.driver.quit()
-        super().tearDownClass()
+    def test_add_driver_and_view(self):
+        # Login
+        self.login("arya", "Arya@123")
 
-    def test_login_successful(self):
-        self.driver.get(self.live_server_url + "/login.html")
+        # Wait for the dashboardOrg page to load and navigate to it
+        WebDriverWait(self.driver, 10).until(
+            EC.presence_of_element_located((By.CLASS_NAME, "page-title"))
+        )
+        self.driver.get(self.live_server_url + "/dashboardOrg.html")
 
-        wait = WebDriverWait(self.driver, 20)  # Adjust timeout as needed
+        # Navigate to Add Driver page
+        self.driver.find_element(By.LINK_TEXT, "Add Drivers").click()
 
-        # Wait for the username input field
-        username_input = wait.until(EC.presence_of_element_located((By.NAME, "username")))
-        password_input = self.driver.find_element(By.NAME, "password")
+        # Fill in the driver information
+        name_input = self.driver.find_element(By.ID, "name")
+        license_number_input = self.driver.find_element(By.ID, "license_number")
+        date_of_birth_input = self.driver.find_element(By.ID, "date_of_birth")
+        address_input = self.driver.find_element(By.ID, "address")
+        phone_number_input = self.driver.find_element(By.ID, "phone_number")
+        email_input = self.driver.find_element(By.ID, "email")
 
-        # Input username and password
-        username_input.send_keys("neha")
-        password_input.send_keys("Neha@123")
+        name_input.send_keys("John Doe")
+        license_number_input.send_keys("ABCD1234EFGH5678")
+        date_of_birth_input.send_keys("1990-01-01")
+        address_input.send_keys("123 Main Street")
+        phone_number_input.send_keys("1234567890")
+        email_input.send_keys("john@example.com")
 
-        # Wait for the login button to be clickable
-        login_button = wait.until(EC.element_to_be_clickable((By.XPATH, "//button[text()='Login']")))
-        login_button.click()
+        # Submit the form
+        submit_button = self.driver.find_element(By.XPATH, "//input[@type='submit']")
+        submit_button.click()
 
-        # Redirect to the dashboard URL after successful login
-        dashboard_url = self.live_server_url + "/dashboard"
-        self.driver.get(dashboard_url)
+        # Wait for the view drivers page to load and navigate to it
+        WebDriverWait(self.driver, 10).until(
+            EC.presence_of_element_located((By.CLASS_NAME, "page-title"))
+        )
+        self.driver.get(self.live_server_url + "/view_drivers.html")
 
-        # Select 'Account' in the dropdown
-        account_dropdown = wait.until(EC.element_to_be_clickable((By.ID, "account-dropdown")))
-        account_dropdown.click()
-
-        # Select 'User Profile' from the dropdown
-        user_profile_option = wait.until(EC.element_to_be_clickable((By.XPATH, "//a[text()='User Profile']")))
-        user_profile_option.click()
-
-        # Wait for the profile page to load
-        wait.until(EC.presence_of_element_located((By.ID, "first-name")))
-
-        # Change the first name
-        first_name_input = self.driver.find_element(By.ID, "first-name")
-        first_name_input.clear()
-        first_name_input.send_keys("NewFirstName")
-
-        # Click on the Save Changes button
-        save_changes_button = self.driver.find_element(By.ID, "save-button")
-        save_changes_button.click()
+        # Verify that the driver has been added by checking if their information appears in the list of drivers
+        driver_info = self.driver.find_element(By.XPATH, "//td[text()='John Doe']")
+        self.assertIsNotNone(driver_info)

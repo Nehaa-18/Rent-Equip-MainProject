@@ -186,44 +186,33 @@
     <br><br>
     <div class="table-container">
             <!-- User table -->
-            <h2 class="center-heading"> PRODUCT DETAILS</h2>
-            
-            <table class="table table-striped small-table">
-                <thead>
-                    <tr>
-                <th>Name</th>
-                <th>Rating </th>
-                <th>Description</th>
-                <th>Price</th>
-                <th>Category</th>
-                <th>Availability</th>
-                <th>Image</th>
-                <th>Edit & Delete</th>
-                
-                    </tr>
-                </thead>
-                <tbody>
-                 {% for product  in equips %}
-            <tr>
-                <td>{{ product.name }}</td>
-                <td>{{ product.rating}}</td>
-                <td>{{ product.description}}</td>
-                <td>{{ product.price_per_day}}</td>
-                <td>{{ product.category}}</td>
-                <td>{{ product.availability}}</td>
-                <td> <img src="{{ product.image.url }}" alt="{{ product.name }}" style="max-width: 100px; max-height: 100px;"></td>
-                <td>
-                <!-- Edit button: Link to the edit view with the product's ID -->
-                <a href="{% url 'edit_product' product.id %}" class="btn btn-primary">Edit</a>
-                
-                <!-- Delete button: Link to the delete view with the product's ID -->
-                <a href="{% url 'delete_product' product.id %}" class="btn btn-danger">Delete</a>
-            </td>
-            </tr>
-            {% endfor %}   
-                </tbody>
-            </table>
-        </div>
+            <h1>Delivery Management System - Admin View</h1>
+
+<!-- Delivery Orders Table -->
+<h2>Delivery Orders</h2>
+<table border="1">
+  <tr>
+    <th>Order ID</th>
+    <th>Customer Name</th>
+    <th>Delivery Address</th>
+    <th>Delivery Date</th>
+    <th>Status</th>
+    <th>Action</th>
+  </tr>
+  <tr>
+    <td>1</td>
+    <td>John </td>
+    <td>Kalikal Kottayam , Kerala </td>
+    <td>2024-03-25</td>
+    <td>Pending</td>
+    <td>
+      <button onclick="markDelivered(1)">Mark Delivered</button>
+      <button onclick="cancelOrder(1)">Cancel Order</button>
+    </td>
+  </tr>
+  <!-- Add more rows for additional orders -->
+</table>
+    </div>
     </div>
     <script>
         function confirmBlock(username, userId) {

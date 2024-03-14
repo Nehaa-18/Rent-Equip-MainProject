@@ -206,3 +206,35 @@ class ProductBooking(models.Model):
     def __str__(self):
         return f"{self.product_name} Booking"
 
+
+
+
+
+
+
+from django.db import models
+from django.conf import settings  # Import settings module
+from django.utils import timezone
+from .models import Product  # Import the Product model
+
+class MaintenanceRequest(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)  # Update the user field
+    equipment = models.ForeignKey(Product, on_delete=models.CASCADE)
+    description = models.TextField()
+    date_created = models.DateTimeField(default=timezone.now)
+    status = models.CharField(max_length=20, default='Pending')
+
+    def __str__(self):
+        return f"Maintenance Request for {self.equipment.name}"
+    
+    
+
+
+from django.conf import settings
+from django.db import models
+
+class Review(models.Model):
+   
+    product = models.ForeignKey(Product, on_delete=models.CASCADE,related_name='reviews')  # Assuming you have a Product model
+    text = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)

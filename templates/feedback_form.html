@@ -1,3 +1,73 @@
+{% comment %} <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feedback Form</title>
+    <style>
+        /* Add your custom CSS styles here */
+    </style>
+</head>
+<body>
+    <div class="feedback-form">
+        <h2>Feedback Form</h2>
+        <form action="{% url 'submit_feedback' %}" method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="text" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="message">Message:</label>
+                <textarea id="message" name="message" required></textarea>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Submit">
+            </div>
+        </form>
+    </div>
+</body>
+</html> {% endcomment %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 {% load static %}
 <!DOCTYPE html>
 <html>
@@ -178,6 +248,58 @@ footer {
 
 
 
+  /* Style the form container */
+    .form-container {
+        width: 50%;
+        margin: 0 auto;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        background-color: brown;
+    }
+
+    /* Style form elements */
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+    }
+
+    input[type="text"],
+    textarea {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-sizing: border-box;
+    }
+
+    textarea {
+        height: 150px;
+    }
+
+    input[type="submit"] {
+        background-color: #4CAF50;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    input[type="submit"]:hover {
+        background-color: #45a049;
+    }
+
+
+    h2 {
+        text-align: center;
+    }
+
       </style>
    </head>
    <body>
@@ -296,217 +418,30 @@ footer {
          <br><br>
          
          <!-- end header section -->
-         <!-- product section starts-->
-         <div id="search-bar">
-         <form action="{% url 'search_blog' %}" method="get">
-         {% csrf_token %}
-         <input type="text" name="q" placeholder="Search for equipment..." >
-          <button type="submit" >Search</button>
-         </form>
-         </div>
-
-         <section class="product_section layout_padding">
-            <div class="container">
-               <div class="heading_container heading_center">
-                  <h2>
-                     Our <span>Equipments</span>
-                  </h2>
-                  <h3>Categories</h3>
-               </div>
-               <div class="row">
-                  <div class="col-sm-6 col-md-4 col-lg-4">
-                     <div class="box">
-                        <div class="option_container">
-                           <div class="options">
-                              
-                              <a href="movingequip" class="option2">
-                              Rent Now
-                              </a>
-                           </div>
-                        </div>
-                        <div class="img-box">
-                           <img src="{% static '/images/p1.jpg' %}" alt="">
-                        </div>
-                        <div class="detail-box">
-                           <h5>
-                              Moving Equipments
-                           </h5>
-                           <h6>
-                              
-                           </h6>
-                        </div>
-                     </div>
-                  </div>
-                  <div class="col-sm-6 col-md-4 col-lg-4">
-                     <div class="box">
-                        <div class="option_container">
-                           <div class="options">
-                             
-                              <a href="sportsequip" class="option2">
-                              Rent Now
-                              </a>
-                           </div>
-                        </div>
-                        <div class="img-box">
-                        <img src="{% static '/images/p2.jpg' %}" alt="">
-                        </div>
-                        <div class="detail-box">
-                           <h5>
-                              Sports Equipments
-                           </h5>
-                           <h6>
-                              
-                           </h6>
-                        </div>
-                     </div>
-                  </div>
-                  <div class="col-sm-6 col-md-4 col-lg-4">
-                     <div class="box">
-                        <div class="option_container">
-                           <div class="options">
-                              
-                              <a href="dumpsterequip" class="option2">
-                                 Rent Now
-                              </a>
-                           </div>
-                        </div>
-                        <div class="img-box">
-                           <img src="{% static '/images/p3.jpg' %}" alt="">
-                        </div>
-                        <div class="detail-box">
-                           <h5>
-                             Dumpster Equipments
-                           </h5>
-                           <h6>
-                              
-                           </h6>
-                        </div>
-                     </div>
-                  </div>
-                  <div class="col-sm-6 col-md-4 col-lg-4">
-                     <div class="box">
-                        <div class="option_container">
-                           <div class="options">
-                              
-                              <a href="officeequip" class="option2">
-                                 Rent  Now
-                              </a>
-                           </div>
-                        </div>
-                        <div class="img-box">
-                           <img src="{% static '/images/p4.jpg' %}" alt="">
-                        </div>
-                        <div class="detail-box">
-                           <h5>
-                              Office Equipments
-                           </h5>
-                           <h6>
-                              
-                           </h6>
-                        </div>
-                     </div>
-                  </div>
-                  <div class="col-sm-6 col-md-4 col-lg-4">
-                     <div class="box">
-                        <div class="option_container">
-                           <div class="options">
-                             
-                              <a href="visualequip" class="option2">
-                                 Rent Now
-                              </a>
-                           </div>
-                        </div>
-                        <div class="img-box">
-                           <img src="{% static '/images/p5.jpg' %}" alt="">
-                        </div>
-                        <div class="detail-box">
-                           <h5>
-                              Visual Equipments
-                           </h5>
-                           <h6>
-                              
-                           </h6>
-                        </div>
-                     </div>
-                  </div>
-                  <div class="col-sm-6 col-md-4 col-lg-4">
-                     <div class="box">
-                        <div class="option_container">
-                           <div class="options">
-                              
-                              <a href="audioequip" class="option2">
-                                 Rent Now
-                              </a>
-                           </div>
-                        </div>
-                        <div class="img-box">
-                           <img src="{% static '/images/p6.jpg' %}" alt="">
-                        </div>
-                        <div class="detail-box">
-                           <h5>
-                              Audio Equipments
-                           </h5>
-                           <h6>
-                              
-                           </h6>
-                        </div>
-                     </div>
-                  </div>
-                  </div>
-                  <div class="col-sm-6 col-md-4 col-lg-4">
-                     
-                  </div>
-               </div>
-               
-            </div>
-         </section>
         
 
-        <div class="heading_container heading_center">
-                  
-                  <h3>ALL   EQUIPMENTS </h3>
-               </div>
 
-
-
-     <!-- product section ends-->
-<main>
-    <div class="container">
-        <div class="row">
-            {% for product in products %}
-                <div class="col-md-4 mb-4">
-                    <div class="card">
-                        <a href="{% url 'product_detail' product.id %}">
-                            <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}">
-                        </a>
-                        <div class="card-body">
-                            <h5 class="card-title">{{ product.name }}</h5>
-                            <p class="card-text">{{ product.description }}</p>
-                            <p class="card-text">Rating: {{ product.rating }}</p>
-                            <p class="card-text">Price per day: Rs. {{ product.price_per_day }}</p>
-                            {% if product.availability %}
-                                <p class="card-text">Availability: In Stock</p>
-                            {% else %}
-                                <p class="card-text">Availability: Out of Stock</p>
-                            {% endif %}
-                            <div class="d-flex justify-content-between align-items-center">
-                                <form method="post" action="{% url 'add-to-cart' product.id %}">
-                                    {% csrf_token %}
-                                    <button type="submit" class="btn btn-primary">Add to cart</button>
-                                </form>
-                                <form method="post" action="{% url 'add_to_wishlist' product.id %}">
-                                    {% csrf_token %}
-                                    <button type="submit" class="btn btn-info">Add to wishlist</button>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            {% endfor %}
-        </div>
+  <div class="form-container">
+        <h2>Feedback Form</h2>
+        <form action="{% url 'submit_feedback' %}" method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="text" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="message">Message:</label>
+                <textarea id="message" name="message" required></textarea>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Submit">
+            </div>
+        </form>
     </div>
-</main>
-
 
     
 
@@ -613,12 +548,6 @@ function searchProducts() {
         }
     }
 }
-
-
-
-
-
-
 
 </script>
 
