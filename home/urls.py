@@ -143,7 +143,10 @@ urlpatterns = [
 
     path('delivery/', views.delivery, name='delivery'),
     path('submit_review/<int:product_id>/', views.submit_review, name='submit_review'),
-   path('reviews/', views.review_list, name='review_list'),  # Add this line for the reviews page
+    path('reviews/', views.review_list, name='review_list'),  # Add this line for the reviews page
+
+    path('chatgpt/', views.chatgpt, name='chatgpt'),
+    path('generate-response/', views.generate_response, name='generate_response'),
 
 ]
 

@@ -145,3 +145,11 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'nehaa2024b@mca.ajce.in'
 EMAIL_HOST_PASSWORD = 'Ajce24@mca'
 DEFAULT_FROM_EMAIL='grovegusto@gmail.com'
+
+
+
+#chatbot
+
+DIALOGFLOW_PROJECT_ID = 'beautebot-pomb'
+DIALOGFLOW_LANGUAGE_CODE = 'en'  # Update with your language code
+DIALOGFLOW_CREDENTIALS_PATH = 'C:\\Users\\91730\\Downloads\\beautebot-pomb-e99bf2952742.json'

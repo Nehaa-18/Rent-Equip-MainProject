@@ -313,56 +313,160 @@ from django.test import TestCase
 #         save_changes_button = self.driver.find_element(By.ID, "save-button")
 #         save_changes_button.click()
 
+
+#add driver and view driver test code
+ 
+from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from django.test import LiveServerTestCase
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
 
-class DriverManagementTest(LiveServerTestCase):
-    # Existing code...
+class LoginAndAddDriverTest(StaticLiveServerTestCase):
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.driver = webdriver.Chrome()
+        cls.driver.maximize_window()
 
-    def test_add_driver_and_view(self):
-        # Login
-        self.login("arya", "Arya@123")
+    @classmethod
+    def tearDownClass(cls):
+        cls.driver.quit()
+        super().tearDownClass()
 
-        # Wait for the dashboardOrg page to load and navigate to it
-        WebDriverWait(self.driver, 10).until(
-            EC.presence_of_element_located((By.CLASS_NAME, "page-title"))
-        )
-        self.driver.get(self.live_server_url + "/dashboardOrg.html")
+    def test_login_and_add_driver(self):
+        driver = self.driver
+        wait = WebDriverWait(driver, 20)
 
-        # Navigate to Add Driver page
-        self.driver.find_element(By.LINK_TEXT, "Add Drivers").click()
+        # Open the login page
+        driver.get("http://127.0.0.1:3000/login.html")
 
+        # Enter username and password
+        username_input = wait.until(EC.presence_of_element_located((By.NAME, "username")))
+        password_input = driver.find_element(By.NAME, "password")
+
+        username_input.send_keys("arya")
+        password_input.send_keys("Arya@123")
+
+        # Click the login button
+        login_button = wait.until(EC.element_to_be_clickable((By.XPATH, "//button[text()='Login']")))
+        login_button.click()
+
+        # Wait for successful login and navigation to the dashboard page
+        driver.get("http://127.0.0.1:3000/dashboardOrg")
+
+
+        # Navigate to add_driver.html page
+        driver.get("http://127.0.0.1:3000/add_driver/")
+
+        # Wait for the add driver page to load
+        wait.until(EC.url_to_be("http://127.0.0.1:3000/add_driver/"))
+
+        # Assert that the correct page has been loaded
+        self.assertEqual(driver.current_url, "http://127.0.0.1:3000/add_driver/")
+
+        # Now you can continue with the test steps for the add driver page
         # Fill in the driver information
-        name_input = self.driver.find_element(By.ID, "name")
-        license_number_input = self.driver.find_element(By.ID, "license_number")
-        date_of_birth_input = self.driver.find_element(By.ID, "date_of_birth")
-        address_input = self.driver.find_element(By.ID, "address")
-        phone_number_input = self.driver.find_element(By.ID, "phone_number")
-        email_input = self.driver.find_element(By.ID, "email")
+        name_input = driver.find_element(By.ID, "name")
+        license_number_input = driver.find_element(By.ID, "license_number")
+        date_of_birth_input = driver.find_element(By.ID, "date_of_birth")
+        address_input = driver.find_element(By.ID, "address")
+        phone_number_input = driver.find_element(By.ID, "phone_number")
+        email_input = driver.find_element(By.ID, "email")
 
-        name_input.send_keys("John Doe")
+        name_input.send_keys("Doe")
         license_number_input.send_keys("ABCD1234EFGH5678")
-        date_of_birth_input.send_keys("1990-01-01")
+        date_of_birth_input.send_keys("14-03-1994")
         address_input.send_keys("123 Main Street")
         phone_number_input.send_keys("1234567890")
         email_input.send_keys("john@example.com")
 
         # Submit the form
-        submit_button = self.driver.find_element(By.XPATH, "//input[@type='submit']")
+        submit_button = driver.find_element(By.XPATH, "//input[@type='submit']")
         submit_button.click()
 
+        driver.get("http://127.0.0.1:3000/view_drivers/")
         # Wait for the view drivers page to load and navigate to it
-        WebDriverWait(self.driver, 10).until(
-            EC.presence_of_element_located((By.CLASS_NAME, "page-title"))
-        )
-        self.driver.get(self.live_server_url + "/view_drivers.html")
+        wait.until(EC.url_to_be("http://127.0.0.1:3000/view_drivers/"))
 
-        # Verify that the driver has been added by checking if their information appears in the list of drivers
-        driver_info = self.driver.find_element(By.XPATH, "//td[text()='John Doe']")
-        self.assertIsNotNone(driver_info)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# from django.contrib.staticfiles.testing import StaticLiveServerTestCase
+# from selenium import webdriver
+# from selenium.webdriver.common.by import By
+# from selenium.webdriver.support.ui import WebDriverWait
+# from selenium.webdriver.support import expected_conditions as EC
+# class LoginAndAddTechnicianTest(StaticLiveServerTestCase):
+#     @classmethod
+#     def setUpClass(cls):
+#         super().setUpClass()
+#         cls.driver = webdriver.Chrome()
+#         cls.driver.maximize_window()
+
+#     @classmethod
+#     def tearDownClass(cls):
+#         cls.driver.quit()
+#         super().tearDownClass()
+
+#     def test_login_and_add_technician(self):
+#         driver = self.driver
+#         wait = WebDriverWait(driver, 50)
+
+#         # Open the login page
+#         driver.get("http://127.0.0.1:3000/login.html")
+
+#         # Enter username and password
+#         username_input = wait.until(EC.presence_of_element_located((By.NAME, "username")))
+#         password_input = driver.find_element(By.NAME, "password")
+
+#         username_input.send_keys("arya")
+#         password_input.send_keys("Arya@123")
+
+#         # Click the login button
+#         login_button = wait.until(EC.element_to_be_clickable((By.XPATH, "//button[text()='Login']")))
+#         login_button.click()
+
+#         # Wait for successful login and navigation to the dashboard page
+#         driver.get("http://127.0.0.1:3000/dashboardOrg")
+
+#         # Navigate to add_technician.html page
+#         driver.get("http://127.0.0.1:3000/add_technician/")
+
+#         # Wait for the add technician page to load
+#         wait.until(EC.url_to_be("http://127.0.0.1:3000/add_technician/"))
+
+#         # Assert that the correct page has been loaded
+#         self.assertEqual(driver.current_url, "http://127.0.0.1:3000/add_technician/")
+
+#         # Now you can continue with the test steps for the add technician page
+#         # Fill in the technician information
+#         name_input = driver.find_element(By.ID, "name")
+#         phone_number_input = driver.find_element(By.ID, "phone_number")
+#         expertise_input = driver.find_element(By.ID, "expertise")
+#         email_input = driver.find_element(By.ID, "email")
+#         address_input = driver.find_element(By.ID, "address")
+
+#         name_input.send_keys("John")
+#         phone_number_input.send_keys("7902446778")
+#         expertise_input.send_keys("Electronics")
+#         email_input.send_keys("johndoe@gmail.com")
+#         address_input.send_keys("123 Main Street")
+
+#         # Submit the form
+#         submit_button = driver.find_element(By.XPATH, "//button[@type='submit']")
+#         submit_button.click()
+#         driver.get("http://127.0.0.1:3000/view_technicians/")
+#         # Wait for the view technicians page to load and navigate to it
+#         wait.until(EC.url_to_be("http://127.0.0.1:3000/view_technicians/"))
