@@ -1,4 +1,32 @@
-{% load static %}
+{% comment %} <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Delivery Boy</title>
+</head>
+<body>
+    <h1>Add Delivery Boy</h1>
+    <form method="POST">
+        {% csrf_token %}
+        <label for="name">Name:</label><br>
+        <input type="text" id="name" name="name" required><br>
+        <label for="email">Email:</label><br>
+        <input type="email" id="email" name="email" required><br><br>
+        <button type="submit">Add Delivery Boy</button>
+    </form>
+</body>
+</html> {% endcomment %}
+
+
+
+
+
+
+
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,15 +34,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
-     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
+
+      
         body {
             font-family: 'Montserrat', sans-serif;
             background-color:#D3D3D3; /* Use your preferred background color */
             margin: 0;
             padding: 0;
         }
- 
+
         /* Header styles */
         .header {
             background-color:  #4d4f68; /* Use your preferred header background color */
@@ -35,6 +65,8 @@
     font-weight: bold; /* Make the text bold */
     color: white; /* Set the text color to white */
 }
+
+        }
 
         /* Logout button styles */
         #logout-link {
@@ -143,36 +175,71 @@
         background-color: #28a745; /* Green color for activate button */
         color: #fff;
     }
-    h1 {
-        color:#4d4f68;
+
+h1 {
+        color: #4d4f68;;
         font-weight: bold;
-        
+        text-align: center;
     }
+
+/* Button styles */
+.btn {
+    padding: 6px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    text-transform: uppercase;
+    background-color: #007bff; /* Blue color for buttons */
+    color: #fff;
+}
+
+/* Center the button */
+.center-btn {
+    display: block;
+    margin: 0 auto;
+    text-align: center;
+}
+
+
+   /* Input and textarea styles */
+input[type="text"],
+input[type="email"],
+textarea {
+    padding: 8px 12px;
+    border: 1px solid black; /* Set border color to black for both input fields and textarea */
+    border-radius: 4px;
+    font-size: 14px;
+    width: 100%;
+    box-sizing: border-box; /* Ensure padding and border are included in the element's total width */
+    margin-bottom: 10px; /* Add some space between input fields and textareas */
+}
+
+
     </style>
 </head>
 <body>
     <!-- Header -->
     <div class="header">
-        <h1 class="page-title"> Dashboard</h1>
+        <h1 class="page-title">Dashboard</h1>
         <a href="{% url 'logout' %}" class="btn btn-primary" id="logout-link">Logout</a>
     </div>
 
     <!-- Sidebar -->
-    <div class="sidebar">
+  <div class="sidebar">
     <ul>
-        <li><a href="">Dashboard</a></li>
-        <li><a href="{% url 'accountorg' %}">Account</a></li> 
+        <li><a href="#">Dashboard</a></li>
+         <li><a href="{% url 'accountorg' %}">Account</a></li> 
         <li><a href="{% url 'regusers' %}">Regular Users</a></li>
         <li><a href="{% url 'cusers' %}">Company Users</a></li>
+        
+        <li><a href="{% url 'addequip' %}">Add Equipments</a></li>
+        <li><a href="{% url 'view_equip' %}">View Equipments</a></li>
+       
         <li><a href="{% url 'add_driver' %}">Add Drivers</a></li>
         <li><a href="{% url 'view_drivers' %}">View Drivers</a></li>
         <li><a href="{% url 'add_technician' %}">Add Technician</a></li>
         <li><a href="{% url 'view_technician' %}">View Technician</a></li>
-        <li><a href="{% url 'addequip' %}">Add Equipments</a></li>
-         <li><a href="{% url 'view_equip' %}">View Equipments</a></li>
-        <li><a href="{% url 'delivery' %}">Delivery Management</a></li>
-        {% comment %} <li><a href="{% url 'review_list' %}">Reviews</a></li> {% endcomment %}
-        <li><a href="{% url 'delivery_boy' %}">Delivery boy adding</a></li>
         {% comment %} <li>
             <label for="view-equipments">View Equipments:</label>
             <select id="view-equipments" onchange="location = this.value;">
@@ -185,96 +252,93 @@
         </li> {% endcomment %}
         <!-- <li><a href="">Blocked users</a></li> -->
     </ul>
-</div>
+  </div>
 
 
     <!-- Main content -->
     <div class="content">
         <!-- Content area -->
-        <div class="container">
-            <div class="row">
-                <div class="col-md-6">
-                    {% comment %} <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title">Total Users</h5>
+                  <div class="container">
+                    <div class="row">
+                      <div class="col-md-6">
+                        {% comment %} <div class="card">
+                          <div class="card-body">
+                            <h5 class="card-title"><b>Add Technician</b></h5>
                             <p class="card-text">{{ user_count }}</p>
-                        </div>
-                    </div> {% endcomment %}
-                </div>
-                <div class="col-md-6">
-                    <!-- Add any additional statistics or content here -->
-                </div>
-            </div>
+                          </div>
+                        </div> {% endcomment %}
+                      </div>
+                      <div class="col-md-6">
+                      <!-- Add any additional statistics or content here -->
+                      </div>
+                  </div>
 
             <!-- User table -->
-            {% comment %} <h2 class="page-title mt-4">User List</h2> {% endcomment %}
-           
-{% comment %} <table class="table table-striped">
-    <thead>
-        <tr>
-            <th>Username</th>
-            <th>Email</th>
-            <th>City</th>
-            <th>Status</th>
-            <th>Action</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for user in users %}
-        <tr>
-            <td>{{ user.username }}</td>
-            <td>{{ user.email }}</td>
-            <td>{{ user.city }}</td>
-            <td>
-                {% if user.is_active %}
-                Active
-                {% else %}
-                Deactivated
-                {% endif %}
-            </td>
-            <td>
-                {% if user.is_active %}
-                <form method="post" action="{% url 'deactivate_user' user.id %}">
-                    {% csrf_token %}
-                    <button type="submit" class="btn btn-danger">Deactivate</button>
-                </form>
-                {% else %}
-                <form method="post" action="{% url 'activate_user' user.id %}">
-                    {% csrf_token %}
-                    <button type="submit" class="btn btn-success">Activate</button>
-                </form>
-                {% endif %}
-            </td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table> {% endcomment %}
-<!-- User image -->
-<div style="text-align: center;">
-
-    <!-- Paragraph -->
-    <p style="color: #4d4f68;"><b>RENT-EQUIP DASHBOARD</b></p>
-
-    <!-- User image -->
-    <img src="{% static '/images/sliderbg.jpg' %}" alt="User Image" style="max-width: 100%; height: auto;">
-
-</div>
-
-        </div>
+    
+    <h1>Add Delivery Boy</h1>
+    <form method="post" class="styled-form">
+    {% csrf_token %}
+   <div class="form-group">
+        <label for="name"  style="color: blue; font-weight: bold;">Name:</label>
+        <input type="text" id="name" name="name" class="form-control">
     </div>
-    <script>
-        function confirmBlock(username, userId) {
-            console.log('Button clicked'); // Add this line to check if the function is called
-            if (confirm(Do you want to block ${username}?)) {
-                // If the admin confirms, redirect to the block_user view
-                window.location.href = /block_user/${userId};
-            }
-        }
-    </script>
+    
+    <div class="form-group">
+        <label for="email"  style="color: blue; font-weight: bold;">Email:</label>
+        <input type="email" id="email" name="email" class="form-control">
+    </div>
+    
+    <button type="submit" class="btn center-btn">Submit</button>
+</form>
 
-    <!-- Include Bootstrap JS -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+ document.addEventListener('DOMContentLoaded', function() {
+        // Get the name input field
+        var nameInput = document.getElementById('name');
+
+        // Add an event listener for input changes
+        nameInput.addEventListener('input', function() {
+            // Get the value of the name input field
+            var nameValue = nameInput.value;
+
+            // Define a regular expression pattern for the name
+            var pattern = /^[A-Z][a-z]*$/;
+
+            // Test if the name matches the pattern
+            if (!pattern.test(nameValue)) {
+                // If the name is invalid, show a message to the user
+                nameInput.setCustomValidity('Name should contain only alphabets with the first letter capitalized.');
+            } else {
+                // If the name is valid, clear any previous validation message
+                nameInput.setCustomValidity('');
+            }
+        });
+    });
+
+
+
+     document.addEventListener('DOMContentLoaded', function() {
+        // Get the phone number input field
+        var phoneNumberInput = document.getElementById('phone_number');
+
+        // Add an event listener for input changes
+        phoneNumberInput.addEventListener('input', function() {
+            // Get the value of the phone number input field
+            var phoneNumberValue = phoneNumberInput.value;
+
+            // Define a regular expression pattern for the phone number
+            var pattern = /^[1-9]\d{9}$/;
+
+            // Test if the phone number matches the pattern
+            if (!pattern.test(phoneNumberValue)) {
+                // If the phone number is invalid, show a message to the user
+                phoneNumberInput.setCustomValidity('Phone number should contain exactly 10 digits and start with a non-zero digit.');
+            } else {
+                // If the phone number is valid, clear any previous validation message
+                phoneNumberInput.setCustomValidity('');
+            }
+        });
+    });
+</script>
 </body>
 </html>

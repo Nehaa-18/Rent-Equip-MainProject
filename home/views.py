@@ -93,8 +93,53 @@ def registration(request):
 
 
 
+# from django.contrib.auth import authenticate, login as auth_login
+# from django.shortcuts import render, redirect
+# @never_cache
+# def login(request):
+#     if request.method == 'POST':
+#         loginusername = request.POST.get('username')
+#         password = request.POST.get('password')
+
+#         if loginusername and password:  # Use 'loginusername' here
+#             # Check if the entered credentials are for the admin
+#             if loginusername == "admin" and password == "Ajce24@mca":
+#                 users = CustomUser.objects.exclude(is_superuser='1')  # Exclude superusers
+#                 user_count = users.count()
+#                 context = {
+#                     "users": users,
+#                     "user_count": user_count
+#                 }
+#                 return render(request, 'admindash.html', context)
+#             else:
+#                 # For regular users, attempt to authenticate
+#                 user = authenticate(request, username=loginusername, password=password)
+
+#                 if user is not None:
+#                     auth_login(request, user)
+#                     request.session['username'] = user.username
+#                     if user.usertype == 'User':
+#                         return redirect('dashboard')
+#                     elif user.usertype == 'Company':
+#                         return redirect('dashboardOrg')
+#                     else:
+#                         return redirect('admindash')
+#                 else:
+#                     error_message = "Invalid username or email"
+#                     return render(request, 'login.html', {'error_message': error_message})
+#         else:
+#             error_message = "email and password are required"
+#             return render(request, 'login.html', {'error_message': error_message})
+#     response = render(request, 'login.html')
+#     response['Cache-Control'] = 'no-store,must-revalidate'
+#     return response
+
+
 from django.contrib.auth import authenticate, login as auth_login
 from django.shortcuts import render, redirect
+from django.views.decorators.cache import never_cache
+from .models import CustomUser  # Assuming CustomUser is your user model
+
 @never_cache
 def login(request):
     if request.method == 'POST':
@@ -111,6 +156,9 @@ def login(request):
                     "user_count": user_count
                 }
                 return render(request, 'admindash.html', context)
+            elif loginusername == "George" and password == "George@123":
+                # For the delivery boy, redirect to the delivery dashboard
+                return redirect('delivery_dash')
             else:
                 # For regular users, attempt to authenticate
                 user = authenticate(request, username=loginusername, password=password)
@@ -133,6 +181,7 @@ def login(request):
     response = render(request, 'login.html')
     response['Cache-Control'] = 'no-store,must-revalidate'
     return response
+
 
     
 @never_cache
@@ -1277,42 +1326,42 @@ def search_presults(request):
 
 # views.py
 
-from django.shortcuts import render, redirect
-from .models import MaintenanceRequest
+# from django.shortcuts import render, redirect
+# from .models import MaintenanceRequest
 
-def maintenance_request(request, product_id):
-    if request.method == 'POST':
-        user = request.user
-        equipment = Product.objects.get(pk=product_id)
-        description = request.POST.get('description')
-        MaintenanceRequest.objects.create(user=user, equipment=equipment, description=description)
-        return redirect('maintenance_request_confirmation')  # Redirect to a confirmation page
-    else:
-        return render(request, 'maintenance_request')
-
-
+# def maintenance_request(request, product_id):
+#     if request.method == 'POST':
+#         user = request.user
+#         equipment = Product.objects.get(pk=product_id)
+#         description = request.POST.get('description')
+#         MaintenanceRequest.objects.create(user=user, equipment=equipment, description=description)
+#         return redirect('maintenance_request_confirmation')  # Redirect to a confirmation page
+#     else:
+#         return render(request, 'maintenance_request')
 
 
 
-from django.shortcuts import render, redirect
 
-def submit_feedback(request):
-    if request.method == 'POST':
-        # Retrieve form data from POST request
-        name = request.POST.get('name')
-        email = request.POST.get('email')
-        message = request.POST.get('message')
+
+# from django.shortcuts import render, redirect
+
+# def submit_feedback(request):
+#     if request.method == 'POST':
+#         # Retrieve form data from POST request
+#         name = request.POST.get('name')
+#         email = request.POST.get('email')
+#         message = request.POST.get('message')
         
-        # Perform validation if necessary
+#         # Perform validation if necessary
         
-        # Process the feedback (e.g., save to database, send email, etc.)
-        # For demonstration, we'll just print the data
-        print(f"Name: {name}, Email: {email}, Message: {message}")
+#         # Process the feedback (e.g., save to database, send email, etc.)
+#         # For demonstration, we'll just print the data
+#         print(f"Name: {name}, Email: {email}, Message: {message}")
         
-        # Redirect after processing the feedback
-        return redirect('feedback_success')  # Assuming you have a 'feedback_success' URL pattern
+#         # Redirect after processing the feedback
+#         return redirect('feedback_success')  # Assuming you have a 'feedback_success' URL pattern
         
-    return render(request, 'feedback_form.html')
+#     return render(request, 'feedback_form.html')
 
 
 
@@ -1326,18 +1375,18 @@ def delivery(request):
 
 
 
-from django.shortcuts import render, redirect
-from django.http import JsonResponse
-from .models import Review
-from django.http import JsonResponse
-def submit_review(request, product_id):
-    if request.method == 'POST':
-        product = get_object_or_404(Product, pk=product_id)
-        text = request.POST.get('review_text')
-        Review.objects.create(product=product, text=text)
-        return redirect('product_detail', product_id=product_id)
-    else:
-        return redirect('product_detail', product_id=product_id)
+# from django.shortcuts import render, redirect
+# from django.http import JsonResponse
+# from .models import Review
+# from django.http import JsonResponse
+# def submit_review(request, product_id):
+#     if request.method == 'POST':
+#         product = get_object_or_404(Product, pk=product_id)
+#         text = request.POST.get('review_text')
+#         Review.objects.create(product=product, text=text)
+#         return redirect('product_detail', product_id=product_id)
+#     else:
+#         return redirect('product_detail', product_id=product_id)
     
 
 def review_list(request):
@@ -1349,66 +1398,105 @@ def review_list(request):
 
 
 
-#chatbot
+# #chatbot
 
-#chatgpt nrs
-    # chatapp/views.py
-from django.http import JsonResponse
-from django.views.decorators.csrf import csrf_exempt
-from django.shortcuts import render
-from transformers import GPT2LMHeadModel, GPT2Tokenizer
+# #chatgpt nrs
+#     # chatapp/views.py
+# from django.http import JsonResponse
+# from django.views.decorators.csrf import csrf_exempt
+# from django.shortcuts import render
+# from transformers import GPT2LMHeadModel, GPT2Tokenizer
 
-model_name = "gpt2"
-tokenizer = GPT2Tokenizer.from_pretrained(model_name)
-model = GPT2LMHeadModel.from_pretrained(model_name)
-
-@csrf_exempt
-def chatgpt(request):
-    return render(request, 'chatgpt.html')
+# model_name = "gpt2"
+# tokenizer = GPT2Tokenizer.from_pretrained(model_name)
+# model = GPT2LMHeadModel.from_pretrained(model_name)
 
 # @csrf_exempt
+# def chatgpt(request):
+#     return render(request, 'chatgpt.html')
+
+# # @csrf_exempt
+# # def generate_response(request):
+# #     if request.method == 'POST':
+# #         user_input = request.POST.get('user_input')
+# #         response = generate_gpt2_response(user_input)
+# #         return JsonResponse({'response': response})
+# #     else:
+# #         return JsonResponse({'error': 'Invalid request method'})
+
 # def generate_response(request):
 #     if request.method == 'POST':
-#         user_input = request.POST.get('user_input')
-#         response = generate_gpt2_response(user_input)
-#         return JsonResponse({'response': response})
+
+#         user_input = request.POST.get('user_input').lower()
+#         if 'Rentequip' in user_input:
+#             response_data = {'response': "Rentequip is your go-to destination for high-quality equipments for renting! How can I assist you today?"}
+#         elif 'products' in user_input:
+#             response_data = {'response': "We offer a wide range of equipments , including moving equipment, sports equipment, and more. Browse our collection online!"}
+#         elif 'hi' in user_input:
+#             response_data = {'response': "hellooo"}
+#         elif 'price' in user_input:
+#             response_data = {'response': "We provide the rental equipments in market price . "}
+#         elif 'product brands' in user_input:
+#             response_data = {'response': "Rentequipt proudly offers a wide range of renowned equipment brands, including but not limited to Volvo, Adidas, Sony, and HP. Explore our collection to find your favorite brands and discover new ones!"}
+#         # elif 'bridal makeup booking' in user_input:
+#         #     response_data = {'response': "Booking a bridal makeup session is easy! Log in ,navigate to the 'Bookings' section, and choose your preferred date and time. Select a skilled beautician, and you're all set! "}
+#         elif 'rental days' in user_input:
+#             response_data = {'response': "We want you to be satisfied with your rental! You can rent equipment for straight 12 days ."}
+#         elif 'offers' in user_input or 'discounts' in user_input:
+#             response_data = {'response': "Check out our latest offers and discounts on  products. Don't miss out on great deals!"}
+#         elif 'order' in user_input or 'delivery' in user_input:
+#             response_data = {'response': "For information about your order or delivery, please contact our customer support at support@rentequip.com."}
+#         else:
+            
+#             response_data = {'response': "Sorry Idk"}
+#             # response = generate_gpt2_response(user_input)
+#             # response_data = {'response': response}
+
+#         return JsonResponse(response_data)
 #     else:
 #         return JsonResponse({'error': 'Invalid request method'})
 
-def generate_response(request):
+# def generate_gpt2_response(user_input, max_length=100):
+#     input_ids = tokenizer.encode(user_input, return_tensors="pt")
+#     output = model.generate(input_ids, max_length=max_length, num_beams=5, no_repeat_ngram_size=2, top_k=50, top_p=0.95)
+#     response = tokenizer.decode(output[0], skip_special_tokens=True)
+#     return response
+#chat bot ends
+
+
+# views.py
+from django.shortcuts import render
+from .models import DeliveryBoy
+
+def delivery_boy(request):
+    # Check if the request is a POST request (form submission)
     if request.method == 'POST':
+        # Get data from the form
+        name = request.POST.get('name')
+        email = request.POST.get('email')
+        # Create a new DeliveryBoy instance
+        new_delivery_boy = DeliveryBoy(name=name, email=email)
+        # Save the new delivery boy to the database
+        new_delivery_boy.save()
+    
+    # Retrieve all existing delivery boys from the database
+    delivery_boys = DeliveryBoy.objects.all()
+    return render(request, 'delivery_boy.html', {'delivery_boys': delivery_boys})
 
-        user_input = request.POST.get('user_input').lower()
-        if 'Rentequip' in user_input:
-            response_data = {'response': "Rentequip is your go-to destination for high-quality equipments for renting! How can I assist you today?"}
-        elif 'products' in user_input:
-            response_data = {'response': "We offer a wide range of equipments , including moving equipment, sports equipment, and more. Browse our collection online!"}
-        elif 'hi' in user_input:
-            response_data = {'response': "hellooo"}
-        elif 'price' in user_input:
-            response_data = {'response': "We provide the rental equipments in market price . "}
-        elif 'product brands' in user_input:
-            response_data = {'response': "Rentequipt proudly offers a wide range of renowned equipment brands, including but not limited to Volvo, Adidas, Sony, and HP. Explore our collection to find your favorite brands and discover new ones!"}
-        # elif 'bridal makeup booking' in user_input:
-        #     response_data = {'response': "Booking a bridal makeup session is easy! Log in ,navigate to the 'Bookings' section, and choose your preferred date and time. Select a skilled beautician, and you're all set! "}
-        elif 'rental days' in user_input:
-            response_data = {'response': "We want you to be satisfied with your rental! You can rent equipment for straight 12 days ."}
-        elif 'offers' in user_input or 'discounts' in user_input:
-            response_data = {'response': "Check out our latest offers and discounts on  products. Don't miss out on great deals!"}
-        elif 'order' in user_input or 'delivery' in user_input:
-            response_data = {'response': "For information about your order or delivery, please contact our customer support at support@rentequip.com."}
-        else:
-            
-            response_data = {'response': "Sorry Idk"}
-            # response = generate_gpt2_response(user_input)
-            # response_data = {'response': response}
+from django.shortcuts import render
 
-        return JsonResponse(response_data)
-    else:
-        return JsonResponse({'error': 'Invalid request method'})
+def delivery_dashboard(request):
+    return render(request, 'deliverydash.html')
 
-def generate_gpt2_response(user_input, max_length=100):
-    input_ids = tokenizer.encode(user_input, return_tensors="pt")
-    output = model.generate(input_ids, max_length=max_length, num_beams=5, no_repeat_ngram_size=2, top_k=50, top_p=0.95)
-    response = tokenizer.decode(output[0], skip_special_tokens=True)
-    return response
+
+
+
+from django.shortcuts import render
+from .models import Order
+
+def available_orders(request):
+    # Query the database for all orders
+    all_orders = Order.objects.all()
+
+    # Pass all_orders data to the template
+    return render(request, 'available_orders.html', {'available_orders':all_orders})

@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', function () {
             })
             .then(data => {
                 var options = {
-                    "key": "rzp_test_gnfRb5yrjsJDEI",
+                    "key": "rzp_test_Fs6InOGu8MxE9P",
                     "amount": totalPrice * 100,
                     "currency": "INR",
                     "name": "Ecommerce",
@@ -94,4 +94,46 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 
+// document.addEventListener('DOMContentLoaded', function () {
+//     const checkoutButton = document.getElementById('rzp-button1');
+//     const checkoutData = document.getElementById("checkout-data");
+//     const email = checkoutData.getAttribute("data-email");
+//     const first_Name = checkoutData.getAttribute("data-first_name");
+//     const totalItemAmount = document.getElementById("total_item_amount");
+
+//     function getCookie(name) {
+//         let value = "; " + document.cookie;
+//         let parts = value.split("; " + name + "=");
+//         if (parts.length === 2) return parts.pop().split(";").shift();
+//     }
+
+//     checkoutButton.addEventListener('click', function (event) {
+//         event.preventDefault();
+
+//         const rawPrice = totalItemAmount.textContent;
+//         const totalPrice = parseFloat(rawPrice.replace('₹', '').trim());
+
+//         fetch("http://127.0.0.1:3000/create-order/", {
+//             method: 'POST',
+//             headers: {
+//                 'Content-Type': 'application/json',
+//                 'X-CSRFToken': getCookie('csrftoken')
+//             },
+//             credentials: 'same-origin', // Include cookies in the request
+//         })
+//         .then(response => {
+//             if (!response.ok) {
+//                 throw new Error('Network response was not ok');
+//             }
+//             return response.json();
+//         })
+//         .then(data => {
+//             // Handle response data and proceed with payment flow
+//         })
+//         .catch(error => {
+//             console.error('Error creating order:', error);
+//             alert('There was an issue initiating your order. Please try again.');
+//         });
+//     });
+// });
 

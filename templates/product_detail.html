@@ -305,7 +305,7 @@ footer {
                 </ul>
                 <h2 class="card-title">Add Review</h2>
                 <button class="btn btn-primary" onclick="openReviewForm()">Add Review</button>
-                <form id="reviewForm" method="post" action="{% url 'submit_review' product.id %}" style="display: none;">
+                {% comment %} <form id="reviewForm" method="post" action="{% url 'submit_review' product.id %}" style="display: none;"> {% endcomment %}
                     {% csrf_token %}
                     <textarea name="review_text" class="form-control" rows="3" required></textarea><br>
                     <button type="submit" class="btn btn-success">Submit Review</button>
